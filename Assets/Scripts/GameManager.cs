@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    public bool gameEnded = false;
 
     [SerializeField] float timer;
     private int reputation;

@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Hater : MonoBehaviour
 {
+    public bool hostile = true;
+    public int spawnIndex;
+    [SerializeField] bool stunned;
+
+    [SerializeField] private int hitsUntilLeave = 1;
+
     // Start is called before the first frame update
     void Start()
     {

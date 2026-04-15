@@ -7,13 +7,16 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 [RequireComponent(typeof(Ingredient))]
 public class Throwable : MonoBehaviour
 {
-    bool hurtsPlayer;
+    bool hurtsPlayer = false;
     Ingredient ing;
     // Start is called before the first frame update
     void Start()
     {
-        hurtsPlayer = true;
         ing = GetComponent<Ingredient>();
+    }
+
+    public void InitializeThrown() {
+        hurtsPlayer = true;
     }
 
     void OnCollisionEnter(Collision c) {
