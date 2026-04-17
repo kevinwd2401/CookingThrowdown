@@ -51,7 +51,7 @@ public class NPCThrowing : MonoBehaviour
                 yield return new WaitForSeconds(0.2f);
                 mr.material = tempMats[0];
             }
-            yield return new WaitForSeconds(8 + 5 *  Random.value);
+            yield return new WaitForSeconds(14 + 6 *  Random.value);
         }
 
     }
@@ -89,7 +89,7 @@ public class NPCThrowing : MonoBehaviour
 
         float sqrt = Mathf.Sqrt(discriminant);
 
-        float tanTheta = (Random.value > 0.25f) // use high arc?
+        float tanTheta = (Random.value > 0.0f) // use high arc?
             ? (v2 + sqrt) / (g * x)
             : (v2 - sqrt) / (g * x);
 
