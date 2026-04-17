@@ -35,6 +35,7 @@ public class Throwable : MonoBehaviour
             GameManager.Instance.Reputation -= 10;
         } else if (c.tag == "NPC" && !hurtsPlayer) {
             //stun NPC
+            c.gameObject.GetComponent<Hater>().Stun();
         }
     }
 

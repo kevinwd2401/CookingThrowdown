@@ -19,12 +19,15 @@ public class NPCManager : MonoBehaviour
     }
 
     private IEnumerator SpawnNPCs() {
+        yield return new WaitForSeconds(2);
+
         while (!gm.gameEnded) {
-            yield return new WaitForSeconds(Random.value + 3 * (GameManager.Instance.Reputation / 100f) + counter + 8);
             counter = Mathf.Max(0, counter - 1);
             int index = Random.Range(0, 2);
             GameObject npc = Instantiate(npcPrefab, spawnPoints[index].position, Quaternion.identity);
             npc.GetComponent<Hater>().spawnIndex = index;
+            GameManager.Instance.npcTransforms.Add(npc.transform);
+            yield return new WaitForSeconds(Random.value + 3 * (GameManager.Instance.Reputation / 100f) + counter + 8);
         }
     }
 }

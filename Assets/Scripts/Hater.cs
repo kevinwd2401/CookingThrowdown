@@ -21,4 +21,16 @@ public class Hater : MonoBehaviour
     {
         
     }
+
+    public void Stun() {
+        if (hitsUntilLeave <= 0) return;
+
+        hitsUntilLeave--;
+        if (hitsUntilLeave == 0) {
+            Leave();
+        }
+    }
+    private void Leave() {
+        
+    }
 }
