@@ -1,19 +1,9 @@
 fileFormatVersion: 2
-guid: f0081fd29f81ee74faed746696d6a5f8
+guid: b9eb56b9d0b15be4e91e5383274ee777
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: doorMat
-    second: {fileID: 2100000, guid: 975b56fca06d76a4f8a8ed8fa3206dcd, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: kitchenCabinetMat
-    second: {fileID: 2100000, guid: fda920c40b5960147809b6227e8f2c46, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

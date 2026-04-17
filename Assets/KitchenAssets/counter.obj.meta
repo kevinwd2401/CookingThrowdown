@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: daf404f0792afd643b00822c2735635a
+guid: 9a1eedb1c6fe1274089a60b42e95cf24
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: kitchenCabinetCornerInnerMat
-    second: {fileID: 2100000, guid: fda920c40b5960147809b6227e8f2c46, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

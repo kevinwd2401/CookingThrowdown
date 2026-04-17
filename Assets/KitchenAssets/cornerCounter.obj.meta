@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: 6b1c601f69c6ed44eb500d69a264b0bc
+guid: 30787b9174c07fb4998f748a6fe8f2a0
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: kitchenStoveMat
-    second: {fileID: 2100000, guid: 975b56fca06d76a4f8a8ed8fa3206dcd, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
