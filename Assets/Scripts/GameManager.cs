@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     void Awake() {
         Instance = this;
         reputation = 100;
+        Time.timeScale = 0.75f;
     }
 
     void Start()
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator timerCor() {
         while (!gameOver) {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSecondsRealtime(1);
             timer -= 1;
 
             int minutes = timer / 60;

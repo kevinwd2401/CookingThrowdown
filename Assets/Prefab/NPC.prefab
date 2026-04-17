@@ -131,7 +131,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hostile: 1
   spawnIndex: 0
+  manager: {fileID: 0}
   hitsUntilLeave: 1
+  thrower: {fileID: 4755665850978809558}
 --- !u!136 &7679248070838400037
 CapsuleCollider:
   m_ObjectHideFlags: 0

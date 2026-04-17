@@ -16,27 +16,26 @@ public class NPCThrowing : MonoBehaviour
         tempMats[0] = mr.material;
     }
     void Update() {
-        Vector3 targetDirection;
 
         if (canThrow)
         {
+            Vector3 targetDirection;
             Vector3 toPlayer = GameManager.Instance.playerTrans.position - transform.position;
             targetDirection = new Vector3(toPlayer.x, 0f, toPlayer.z);
+
+            if (targetDirection.sqrMagnitude > 0.001f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    Time.deltaTime * 5f
+                );
+            }
         }
         else
         {
-            Vector3 parentForward = transform.parent.forward;
-            targetDirection = new Vector3(parentForward.x, 0f, parentForward.z);
-        }
-
-        if (targetDirection.sqrMagnitude > 0.001f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                Time.deltaTime * 5f
-            );
+            transform.rotation = transform.parent.rotation;
         }
     }
 
@@ -45,9 +44,11 @@ public class NPCThrowing : MonoBehaviour
         while (true) {
             if (canThrow) {
                 mr.material = tempMats[1];
-                yield return new WaitForSeconds(2);
-                ThrowAtPlayer(GameManager.Instance.playerTrans.position + 3 * Random.insideUnitSphere);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1);
+                Vector3 r = Random.insideUnitSphere;
+                r.y = 0;
+                ThrowAtPlayer(GameManager.Instance.playerTrans.position + r + 0.1f * Vector3.up);
+                yield return new WaitForSeconds(0.2f);
                 mr.material = tempMats[0];
             }
             yield return new WaitForSeconds(8 + 5 *  Random.value);
@@ -55,16 +56,8 @@ public class NPCThrowing : MonoBehaviour
 
     }
 
-    private void ThrowAtPlayer(Vector3 target, float speed = 8)
+    private void ThrowAtPlayer(Vector3 target, float speed = 12)
     {
-        if (GameManager.Instance.throwingList.Length == 0) return;
-
-        GameObject prefab = GameManager.Instance.throwingList[Random.Range(0, GameManager.Instance.throwingList.Length)];
-        GameObject proj = Instantiate(prefab, spawnPt.position, Quaternion.identity);
-
-        Rigidbody rb = proj.GetComponent<Rigidbody>();
-        if (rb == null) return;
-        proj.GetComponent<Throwable>().InitializeThrown();
 
         Vector3 start = spawnPt.position;
 
@@ -85,9 +78,18 @@ public class NPCThrowing : MonoBehaviour
             return;
         }
 
+        if (GameManager.Instance.throwingList.Length == 0) return;
+
+        GameObject prefab = GameManager.Instance.throwingList[Random.Range(0, GameManager.Instance.throwingList.Length)];
+        GameObject proj = Instantiate(prefab, spawnPt.position, Quaternion.identity);
+
+        Rigidbody rb = proj.GetComponent<Rigidbody>();
+        if (rb == null) return;
+        proj.GetComponent<Throwable>().InitializeThrown();
+
         float sqrt = Mathf.Sqrt(discriminant);
 
-        float tanTheta = (Random.value > 0.2f) // use high arc?
+        float tanTheta = (Random.value > 0.25f) // use high arc?
             ? (v2 + sqrt) / (g * x)
             : (v2 - sqrt) / (g * x);
 
