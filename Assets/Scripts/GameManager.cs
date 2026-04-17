@@ -8,8 +8,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public bool gameEnded = false;
-    public Slider repSlider;
-    public TextMeshProUGUI timerText;
+    [SerializeField] private Slider repSlider;
+    [SerializeField] private TextMeshProUGUI timerText;
+    public GameObject[] throwingList;
+    public Transform playerTrans; 
     public HashSet<Transform> npcTransforms = new HashSet<Transform>();
 
     [SerializeField] int timer;

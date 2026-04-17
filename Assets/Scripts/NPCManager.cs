@@ -9,6 +9,7 @@ public class NPCManager : MonoBehaviour
     private int counter;
     [SerializeField] Transform[] spawnPoints;
     [SerializeField] Transform[] entrancePoints;
+    [SerializeField] Transform crowdPoint;
 
     // Start is called before the first frame update
     void Start()

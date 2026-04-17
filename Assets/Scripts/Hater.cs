@@ -6,7 +6,7 @@ public class Hater : MonoBehaviour
 {
     public bool hostile = true;
     public int spawnIndex;
-    [SerializeField] bool stunned;
+    //[SerializeField] bool stunned;
 
     [SerializeField] private int hitsUntilLeave = 1;
 
@@ -28,6 +28,14 @@ public class Hater : MonoBehaviour
         hitsUntilLeave--;
         if (hitsUntilLeave == 0) {
             Leave();
+        }
+    }
+
+    void OnTriggerEnter(Collider c) {
+        if (c.gameObject.TryGetComponent<Throwable>(out Throwable t) && !t.hurtsPlayer) {
+            //stun NPC
+            Stun();
+            t.RemoveIngredient();
         }
     }
     private void Leave() {

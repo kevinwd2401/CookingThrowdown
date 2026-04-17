@@ -20,7 +20,4 @@ public class Ingredient : MonoBehaviour
 
     }
 
-    public virtual void ThrowableOnTrigger(Collider c) {
-
-    }
 }
