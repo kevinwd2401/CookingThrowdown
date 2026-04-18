@@ -7,6 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 [RequireComponent(typeof(Ingredient))]
 public class Throwable : MonoBehaviour
 {
+    private XRGrabInteractable grabInteractable;
     public bool hurtsPlayer = false;
     Ingredient ing;
     // Start is called before the first frame update
@@ -29,7 +30,21 @@ public class Throwable : MonoBehaviour
         }
     }
 
-    
+
+    void Awake()
+    {
+        grabInteractable = GetComponent<XRGrabInteractable>();
+    }
+
+    void OnEnable()
+    {
+        grabInteractable.selectEntered.AddListener(OnGrab);
+    }
+
+    void OnDisable()
+    {
+        grabInteractable.selectEntered.RemoveListener(OnGrab);
+    }
 
     public void RemoveIngredient() {
         // explode vfx?
