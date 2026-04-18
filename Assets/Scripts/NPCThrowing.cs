@@ -56,7 +56,7 @@ public class NPCThrowing : MonoBehaviour
 
     }
 
-    private void ThrowAtPlayer(Vector3 target, float speed = 12)
+    private void ThrowAtPlayer(Vector3 target, float speed = 10)
     {
 
         Vector3 start = spawnPt.position;
@@ -89,7 +89,7 @@ public class NPCThrowing : MonoBehaviour
 
         float sqrt = Mathf.Sqrt(discriminant);
 
-        float tanTheta = (Random.value > 0.0f) // use high arc?
+        float tanTheta = (Random.value > 1f) // use low arc?
             ? (v2 + sqrt) / (g * x)
             : (v2 - sqrt) / (g * x);
 

@@ -71,7 +71,7 @@ public class Hater : MonoBehaviour
                 if (state == MoveState.MoveEnter) {
                     state = MoveState.MoveStage;
                     Vector2 r = 4 * Random.insideUnitCircle;
-                    destination = manager.crowdPoint.position + new Vector3(r.x, 0, r.y);
+                    destination = manager.crowdPoint.position + new Vector3(r.x, 0, 0.33f * r.y);
                 }
                 else if (state == MoveState.MoveStage) {
                     state = MoveState.Stay;
