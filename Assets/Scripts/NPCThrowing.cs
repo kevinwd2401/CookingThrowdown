@@ -1,93 +1,93 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.XR.Interaction.Toolkit.Interactors;
-using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
-[RequireComponent(typeof(Ingredient))]
-public class Throwable : MonoBehaviour
+public class NPCThrowing : MonoBehaviour
 {
-    private XRGrabInteractable grabInteractable;
-    public bool hurtsPlayer = false;
-    Ingredient ing;
+    [SerializeField] Transform spawnPt;
+    public Material[] tempMats;
+    MeshRenderer mr;
+    bool canThrow;
     void Start()
     {
-        ing = GetComponent<Ingredient>();
+        StartCoroutine(ThrowCor());
+        mr = GetComponent<MeshRenderer>();
+        tempMats[0] = mr.material;
     }
+    void Update() {
 
-    public void InitializeThrown() {
-        hurtsPlayer = true;
-    }
-
-    void OnCollisionEnter(Collision c) {
-        ing.ThrowableOnCollide(c);
-        if (c.gameObject.tag == "Floor") {
-            RemoveIngredient();
-        }
-        else {
-            hurtsPlayer = false;
-        }
-    }
-
-
-    void Awake()
-    {
-        grabInteractable = GetComponent<XRGrabInteractable>();
-    }
-
-    void OnEnable()
-    {
-        grabInteractable.selectEntered.AddListener(OnGrab);
-    }
-
-    void OnDisable()
-    {
-        grabInteractable.selectEntered.RemoveListener(OnGrab);
-    }
-
-    public void RemoveIngredient() {
-        Destroy(gameObject);
-    }
-
-    [SerializeField] private float maxCatchDistance = 3.0f;
-
-    public void OnGrab(SelectEnterEventArgs args)
-    {
-        float dist = Vector3.Distance(args.interactorObject.transform.position, transform.position);
-
-        if (dist > maxCatchDistance)
+        if (canThrow)
         {
-            if (args.interactorObject is IXRSelectInteractor interactor)
+            Vector3 targetDirection;
+            Vector3 toPlayer = GameManager.Instance.playerTrans.position - transform.position;
+            targetDirection = new Vector3(toPlayer.x, 0f, toPlayer.z);
+
+            if (targetDirection.sqrMagnitude > 0.001f)
             {
-                XRInteractionManager manager = grabInteractable.interactionManager != null
-                    ? grabInteractable.interactionManager
-                    : FindObjectOfType<XRInteractionManager>();
-
-                if (manager != null)
-                    manager.SelectExit(interactor, grabInteractable);
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRotation,
+                    Time.deltaTime * 5f
+                );
             }
-            return;
         }
-
-        Debug.Log("Ingredient Grabbed");
-        hurtsPlayer = false;
+        else
+        {
+            transform.rotation = transform.parent.rotation;
+        }
     }
 
-    public void MagnetCatch(Transform hand)
+    private IEnumerator ThrowCor()
     {
-        hurtsPlayer = false;
+        yield return new WaitForSeconds(5f);
 
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
+        while (true)
         {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.useGravity = false;
-            rb.isKinematic = true;
-        }
+            if (canThrow)
+            {
+                mr.material = tempMats[1];
+                yield return new WaitForSeconds(1f);
 
-        transform.position = hand.position;
-        transform.rotation = hand.rotation;
-        transform.SetParent(hand);
+                Vector3 r = Random.insideUnitSphere;
+                r.y = 0f;
+
+                Vector3 target = GameManager.Instance.playerTrans.position + new Vector3(r.x, 3.1f, r.z);
+
+                ThrowAtPlayer(target, 11f);
+
+                yield return new WaitForSeconds(0.2f);
+                mr.material = tempMats[0];
+            }
+
+            yield return new WaitForSeconds(14f + 6f * Random.value);
+        }
+    }
+
+    private void ThrowAtPlayer(Vector3 target, float speed = 11f)
+    {
+        if (GameManager.Instance.throwingList.Length == 0) return;
+
+        GameObject prefab = GameManager.Instance.throwingList[
+            Random.Range(0, GameManager.Instance.throwingList.Length)
+        ];
+
+        GameObject proj = Instantiate(prefab, spawnPt.position, Quaternion.identity);
+
+        Rigidbody rb = proj.GetComponent<Rigidbody>();
+        if (rb == null) return;
+
+        proj.GetComponent<Throwable>().InitializeThrown();
+
+        Vector3 dir = (target - spawnPt.position).normalized;
+        dir.y += 0.1f; 
+        dir.Normalize();
+
+        rb.velocity = dir * speed;
+    }
+
+    public void SetThrow(bool throwing) {
+        canThrow = throwing;
     }
 }
 
