@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public bool gameEnded = false;
-    [SerializeField] private Slider repSlider;
+    [SerializeField] private UnityEngine.UI.Slider repSlider;
     [SerializeField] private TextMeshProUGUI timerText;
     public GameObject[] throwingList;
     public Transform playerTrans; 
     public HashSet<Transform> npcTransforms = new HashSet<Transform>();
+
+    public GameObject winText;
+
+    public AudioSource audioSource;
+    public AudioClip winAudio;
 
     [SerializeField] int timer;
     private int reputation;
@@ -37,6 +44,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(timerCor());
+        audioSource = GetComponent<AudioSource>();
+        if (winText != null) winText.SetActive(false);
     }
     private IEnumerator timerCor() {
         while (!gameOver) {
@@ -51,5 +60,13 @@ public class GameManager : MonoBehaviour
             }
         }
         
+    }
+
+    public void WinGame() {
+        if (gameOver) return;
+        gameOver = true;
+        if (winText != null) winText.SetActive(true);
+        audioSource.PlayOneShot(winAudio, 1.0f);
+        Debug.Log("Game Won!");
     }
 }

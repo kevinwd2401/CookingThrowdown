@@ -151,6 +151,12 @@ MonoBehaviour:
   cookProgress: 0
   cookSpeed: 0.1
   cookStatus: 0
+  ingredientIdx: 0
+  cookedMat: {fileID: 0}
+  burntMat: {fileID: 2100000, guid: 52ff916109df364489df2fdff831a5e1, type: 2}
+  audioSource: {fileID: 0}
+  ding: {fileID: 0}
+  burn: {fileID: 0}
 --- !u!114 &9180538684981158400
 MonoBehaviour:
   m_ObjectHideFlags: 0

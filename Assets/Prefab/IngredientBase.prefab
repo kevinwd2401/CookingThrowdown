@@ -292,10 +292,12 @@ MonoBehaviour:
   cookProgress: 0
   cookSpeed: 0.1
   cookStatus: 0
+  ingredientId: 0
   cookedMat: {fileID: 2100000, guid: 02a1725d5ba00b94089f0579cc5588ab, type: 2}
   burntMat: {fileID: 2100000, guid: 52ff916109df364489df2fdff831a5e1, type: 2}
   audioSource: {fileID: -4756535486090499771}
   ding: {fileID: 8300000, guid: dd069e409b3e9d04081728988fecfb0a, type: 3}
+  burn: {fileID: 8300000, guid: 0adcf7cfce70d6d4bb236253aa500eac, type: 3}
 --- !u!135 &2500684274037516100
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -315,7 +317,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.12
+  m_Radius: 0.11
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &-4756535486090499771
 AudioSource:

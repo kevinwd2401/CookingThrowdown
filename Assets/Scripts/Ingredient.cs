@@ -8,12 +8,16 @@ public class Ingredient : MonoBehaviour
     public float cookProgress = 0f;
     public float cookSpeed = 0.1f;
     public int cookStatus = 0; // 0 = raw, 1 = cooked, 2 = burnt  
+    public int ingredientId = 0;
+    // steak == 0
+    // cheese == 1
 
     public Material cookedMat;
     public Material burntMat;
 
     public AudioSource audioSource;
     public AudioClip ding;
+    public AudioClip burn;
 
     private void Start() {
         audioSource = GetComponent<AudioSource>();
@@ -35,7 +39,7 @@ public class Ingredient : MonoBehaviour
             }
         }
     }
-        
+       
     private void OnCooked() {
         Debug.Log(gameObject.name + " is cooked!");
 
@@ -49,7 +53,7 @@ public class Ingredient : MonoBehaviour
 
         // TODO: change mesh/mat/color/make sound
         transform.Find("Mesh").GetComponent<Renderer>().material = cookedMat;
-        audioSource.PlayOneShot(ding, 1.0f);
+        audioSource.PlayOneShot(burn, 0.75f);
     }
 
     public virtual void ThrowableOnCollide(Collision c){

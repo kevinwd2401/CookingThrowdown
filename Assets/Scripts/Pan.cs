@@ -11,7 +11,6 @@ public class Pan : MonoBehaviour
     private Burner currentBurner;
 
     public AudioSource audioSource;
-    public AudioClip ding;
 
     private void Start() {
         audioSource = GetComponent<AudioSource>();
@@ -25,9 +24,28 @@ public class Pan : MonoBehaviour
             isHot = false;
         }
 
+        // cook ingredients in pan
         if (isHot) {
             foreach (Ingredient food in ingredientsInPan) {
                 food.Cook(1.0f);
+            }
+        }
+
+        // sizzle
+        HandleSizzleSound();
+    }
+
+    void HandleSizzleSound() {
+        // is hot and there is at leasy one ingredient in the pan
+        bool shouldSizzle = isHot && ingredientsInPan.Count > 0;
+
+        if (shouldSizzle) {
+            if (!audioSource.isPlaying) {
+                audioSource.Play();
+            }
+        } else {
+            if (audioSource.isPlaying) {
+                audioSource.Stop();
             }
         }
     }
