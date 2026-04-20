@@ -57,9 +57,9 @@ public class NPCThrowing : MonoBehaviour
                 Vector3 r = Random.insideUnitSphere;
                 r.y = 0f;
 
-                Vector3 target = GameManager.Instance.playerTrans.position + new Vector3(r.x, 2.0f, r.z);
+                Vector3 target = GameManager.Instance.playerTrans.position + new Vector3(r.x, 1.4f, r.z);
 
-                ThrowAtPlayer(target, 11f);
+                ThrowAtPlayer(target);
 
                 yield return new WaitForSeconds(0.2f);
                 mr.material = tempMats[0];
@@ -69,26 +69,51 @@ public class NPCThrowing : MonoBehaviour
         }
     }
 
-    private void ThrowAtPlayer(Vector3 target, float speed = 11f)
+    private void ThrowAtPlayer(Vector3 target, float speed = 10f)
     {
+        Vector3 start = spawnPt.position;
+
+        Vector3 toTarget = target - start;
+        Vector3 toTargetXZ = new Vector3(toTarget.x, 0f, toTarget.z);
+
+        float x = toTargetXZ.magnitude;   // horizontal distance
+        float y = toTarget.y;             // vertical difference
+        float g = Mathf.Abs(Physics.gravity.y);
+        float v = speed;
+
+        float v2 = v * v;
+        float discriminant = v2 * v2 - g * (g * x * x + 2f * y * v2);
+
+        // Target cannot be hit with this speed
+        if (discriminant < 0f) {
+            Debug.Log("Cannot throw");
+            return;
+        }
+
         if (GameManager.Instance.throwingList.Length == 0) return;
 
-        GameObject prefab = GameManager.Instance.throwingList[
-            Random.Range(0, GameManager.Instance.throwingList.Length)
-        ];
-
+        GameObject prefab = GameManager.Instance.throwingList[Random.Range(0, GameManager.Instance.throwingList.Length)];
         GameObject proj = Instantiate(prefab, spawnPt.position, Quaternion.identity);
 
         Rigidbody rb = proj.GetComponent<Rigidbody>();
         if (rb == null) return;
-
         proj.GetComponent<Throwable>().InitializeThrown();
 
-        Vector3 dir = (target - spawnPt.position).normalized;
-        dir.y += 0.1f; 
-        dir.Normalize();
+        float sqrt = Mathf.Sqrt(discriminant);
 
-        rb.velocity = dir * speed;
+        float tanTheta = (Random.value > 0.0f) // use high arc?
+            ? (v2 + sqrt) / (g * x)
+            : (v2 - sqrt) / (g * x);
+
+        float angle = Mathf.Atan(tanTheta);
+
+        Vector3 dir = toTargetXZ.normalized;
+
+        Vector3 velocity =
+            dir * (v * Mathf.Cos(angle)) +
+            Vector3.up * (v * Mathf.Sin(angle));
+
+        rb.velocity = velocity;
     }
 
     public void SetThrow(bool throwing) {

@@ -93,11 +93,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2500684274037516100, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
       propertyPath: m_Radius
-      value: 0.04
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 2500684274037516100, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
       propertyPath: m_Center.y
       value: -0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 2500684274037516100, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3054373629983448171, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
       propertyPath: m_LocalScale.x
@@ -188,10 +192,33 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5991168069767549880, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
       insertIndex: 0
       addedObject: {fileID: 1357459615662693980}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5803652243982802983, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6510853010684033637}
   m_SourcePrefab: {fileID: 100100000, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
 --- !u!4 &75287894527319080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5991168069767549880, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
   m_PrefabInstance: {fileID: 5922126226492247952}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &190603203797462967 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5803652243982802983, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+  m_PrefabInstance: {fileID: 5922126226492247952}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-6510853010684033637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190603203797462967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 013896fcaaf4f43ee8b265340fc93246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutResultPrefab: {fileID: 0}
+  minCutSpeed: 1
+  destroyOriginal: 1
