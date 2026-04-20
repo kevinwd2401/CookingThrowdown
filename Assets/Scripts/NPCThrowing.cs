@@ -52,7 +52,7 @@ public class NPCThrowing : MonoBehaviour
                 Vector3 r = Random.insideUnitSphere;
                 r.y = 0f;
 
-                Vector3 target = GameManager.Instance.playerTrans.position + new Vector3(r.x, 3.1f, r.z);
+                Vector3 target = GameManager.Instance.playerTrans.position + new Vector3(r.x, 2.0f, r.z);
 
                 ThrowAtPlayer(target, 11f);
 

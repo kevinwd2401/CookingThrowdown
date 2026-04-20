@@ -14,26 +14,30 @@ public class Ingredient : MonoBehaviour
     // called when ingredient is on hot pan
     public void Cook(float heatIntensity) {
         cookProgress += cookSpeed * heatIntensity * Time.deltaTime;
-
-        if (cookProgress >= 2.0f && cookStatus != 2) { // burnt
-            cookStatus = 2;
-            OnBurnt();
-        } else if (cookProgress >= 1.0f && cookStatus != 1) { // cooked
-            cookStatus = 1;
-            OnCooked();
+        Debug.Log(cookProgress);
+        if (cookProgress >= 2.0f) { // burnt
+            if (cookStatus != 2) {
+                cookStatus = 2;
+                OnBurnt();
+            }
+        } else if (cookProgress >= 1.0f) { // cooked
+            if (cookStatus != 1) {
+                cookStatus = 1;
+                OnCooked();
+            }
         }
     }
         
     private void OnCooked() {
         Debug.Log(gameObject.name + " is cooked!");
         // TODO: change mesh/mat/color/make sound
-        GetComponent<Renderer>().material = cookedMat;
+        transform.Find("Mesh").GetComponent<Renderer>().material = cookedMat;
     }
 
     private void OnBurnt() {
         Debug.Log(gameObject.name + " is burnt!");
         // TODO: change mesh/mat/color/make sound
-        GetComponent<Renderer>().material = burntMat;
+        transform.Find("Mesh").GetComponent<Renderer>().material = cookedMat;
     }
 
     public virtual void ThrowableOnCollide(Collision c){
