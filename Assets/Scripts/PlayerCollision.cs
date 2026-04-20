@@ -41,9 +41,9 @@ public class PlayerCollision : MonoBehaviour
 
     void OnTriggerEnter(Collider c)
     {
-        if (c.transform.parent != null &&
-            c.transform.parent.gameObject.TryGetComponent<Throwable>(out Throwable t) &&
-            t.hurtsPlayer)
+        Throwable t = c.GetComponentInParent<Throwable>();
+
+        if (t != null && t.hurtsPlayer)
         {
             GameManager.Instance.Reputation -= 10;
             t.RemoveIngredient();
