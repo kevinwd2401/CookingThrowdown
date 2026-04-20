@@ -668,7 +668,6 @@ Transform:
   - {fileID: 722083521}
   - {fileID: 647175904}
   - {fileID: 1188007456}
-  - {fileID: 1900838889}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &441087506
@@ -3597,7 +3596,7 @@ GameObject:
   - component: {fileID: 1900838894}
   - component: {fileID: 1900838893}
   m_Layer: 0
-  m_Name: Board
+  m_Name: Recipe Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3612,12 +3611,12 @@ Transform:
   m_GameObject: {fileID: 1900838888}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.305, y: 1.7582, z: 2.152}
-  m_LocalScale: {x: 0.258896, y: 0.007169482, z: 0.35304}
+  m_LocalPosition: {x: 0.305, y: 2.5184, z: 2.152}
+  m_LocalScale: {x: 0.258896, y: 0.009411074, z: 0.35304}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1050045419}
-  m_Father: {fileID: 411446794}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1900838890
 BoxCollider:
@@ -4449,6 +4448,7 @@ SceneRoots:
   - {fileID: 2092139010}
   - {fileID: 867739587}
   - {fileID: 5885223872425487026}
+  - {fileID: 1900838889}
   - {fileID: 411446794}
   - {fileID: 8051837210155266366}
   - {fileID: 609724018}
