@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3691385353938497213}
   - component: {fileID: 8184969590656506182}
-  - component: {fileID: 8418896301326898485}
   m_Layer: 0
   m_Name: Colliders
   m_TagString: Untagged
@@ -53,29 +52,6 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!136 &8418896301326898485
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3906086667308624580}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.1
-  m_Height: 0.4
-  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5803652243982802983
 GameObject:
@@ -315,6 +291,8 @@ MonoBehaviour:
   cookProgress: 0
   cookSpeed: 0.1
   cookStatus: 0
+  cookedMat: {fileID: 2100000, guid: 02a1725d5ba00b94089f0579cc5588ab, type: 2}
+  burntMat: {fileID: 2100000, guid: 52ff916109df364489df2fdff831a5e1, type: 2}
 --- !u!135 &2500684274037516100
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -334,7 +312,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.1
+  m_Radius: 0.12
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8332884538550337833
 GameObject:
