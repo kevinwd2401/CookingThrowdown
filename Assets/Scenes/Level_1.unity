@@ -2100,7 +2100,6 @@ MonoBehaviour:
   throwingList:
   - {fileID: 190603203797462967, guid: b2b5b613cdada2441b876ed0c944a7f9, type: 3}
   - {fileID: 2319525426537470301, guid: 351de5790ff550a46bcd7058671acf9d, type: 3}
-  - {fileID: 190603203797462967, guid: c33d2f9b53a9cd2409dc362c110731a3, type: 3}
   - {fileID: 190603203797462967, guid: 1cfdec026e71ff241a15ff56d5971d4d, type: 3}
   playerTrans: {fileID: 63760320}
   winText: {fileID: 71199995}
