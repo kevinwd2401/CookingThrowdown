@@ -6,12 +6,15 @@ public class NPCThrowing : MonoBehaviour
 {
     [SerializeField] Transform spawnPt;
     public Material[] tempMats;
+    public AudioClip[] audioList;
     MeshRenderer mr;
+    AudioSource audioSource;
     bool canThrow;
     void Start()
     {
         StartCoroutine(ThrowCor());
         mr = GetComponent<MeshRenderer>();
+        audioSource = GetComponent<AudioSource>();
         tempMats[0] = mr.material;
     }
     void Update() {
@@ -47,8 +50,10 @@ public class NPCThrowing : MonoBehaviour
             if (canThrow)
             {
                 mr.material = tempMats[1];
-                yield return new WaitForSeconds(1f);
 
+                audioSource.clip = audioList[0];
+                audioSource.Play();
+                yield return new WaitForSeconds(1f);
                 Vector3 r = Random.insideUnitSphere;
                 r.y = 0f;
 
