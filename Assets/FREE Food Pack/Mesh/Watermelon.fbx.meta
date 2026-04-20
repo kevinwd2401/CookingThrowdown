@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 56be052822e0d8d459a1d331a09d5f8a
-timeCreated: 1489881799
+guid: d0f2ab72785049643aa6edc83f32d9ab
+timeCreated: 1489881800
 licenseType: Store
 ModelImporter:
   serializedVersion: 19
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: oignon
-    4300002: Onion
+    4300000: Watermelon
     9500000: //RootNode
   materials:
     importMaterials: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 56be052822e0d8d459a1d331a09d5f8a
+guid: 901cc454df4ad724a93940db09be892e
 timeCreated: 1489881799
 licenseType: Store
 ModelImporter:
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: oignon
-    4300002: Onion
+    4300000: Sushi
     9500000: //RootNode
   materials:
     importMaterials: 0
