@@ -1787,7 +1787,15 @@ MonoBehaviour:
   repSlider: {fileID: 825367365}
   timerText: {fileID: 1181535996}
   throwingList:
-  - {fileID: 5803652243982802983, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+  - {fileID: 2739784125276888900, guid: 6c8ead7f96301034a858dd2747a9366b, type: 3}
+  - {fileID: 1293571992060608111, guid: d510128d60036144e912a00a984dfbb5, type: 3}
+  - {fileID: 682518386153804965, guid: 74a29ca1569bba848a455e6abcdf5bfb, type: 3}
+  - {fileID: 413906918473219874, guid: 3bab0ba9e63631c43b19a92aeafd53b6, type: 3}
+  - {fileID: 8948165761217206138, guid: c37f7f54fcc509a45b87fef688ebaf9e, type: 3}
+  - {fileID: 7916752844522101514, guid: 3b3d5d80641f0a74f957aa29c93775ef, type: 3}
+  - {fileID: 5345361047617189737, guid: db5eeb707c540bd4a8c8b16e936ad2a5, type: 3}
+  - {fileID: 9180923213487627742, guid: 7a25b10513ddf7848a893cc5105664d8, type: 3}
+  - {fileID: 8103098106404163434, guid: 0bda3ff396b8630409301f8f76b8071f, type: 3}
   playerTrans: {fileID: 63760320}
   timer: 360
 --- !u!4 &867739587
