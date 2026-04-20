@@ -85,8 +85,8 @@ Transform:
   m_GameObject: {fileID: 2056347959300076247}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.050917, y: -0.014829, z: 0.0023011}
+  m_LocalScale: {x: 1.0212, y: 1.0212, z: 1.0514275}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3331126147053545794}
@@ -256,6 +256,7 @@ GameObject:
   - component: {fileID: 7085770701370052522}
   - component: {fileID: 6457926795237457381}
   - component: {fileID: 2934074274122535586}
+  - component: {fileID: 7801469983398869199}
   m_Layer: 0
   m_Name: pad
   m_TagString: Untagged
@@ -272,8 +273,8 @@ Transform:
   m_GameObject: {fileID: 2444031273422282645}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0.172, z: -0.079652}
+  m_LocalScale: {x: 1, y: 1.1448, z: 0.8288935}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3331126147053545794}
@@ -328,6 +329,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7801469983398869199
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2444031273422282645}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.104987, y: 0.03784394, z: 0.9786371}
+  m_Center: {x: -2.4000864, y: 1.2935009, z: 0.0430885}
 --- !u!1 &2617141569410374623
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +365,7 @@ GameObject:
   - component: {fileID: 1571389923279696248}
   m_Layer: 0
   m_Name: burner2
-  m_TagString: Untagged
+  m_TagString: Burner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -357,8 +379,8 @@ Transform:
   m_GameObject: {fileID: 2617141569410374623}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.050917, y: -0.014829, z: 0.0023011}
+  m_LocalScale: {x: 1.0212, y: 1.0212, z: 1.0514275}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3331126147053545794}
@@ -432,8 +454,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.30884778, y: 0.08567391, z: 0.22127716}
-  m_Center: {x: -2.6325397, y: 1.3573765, z: -0.20669194}
+  m_Size: {x: 0.22223711, y: 0.08567391, z: 0.16104653}
+  m_Center: {x: -2.6310463, y: 1.3573765, z: -0.20519866}
 --- !u!114 &1571389923279696248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,6 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94579478b57b824dba92bb29dddddd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHot: 0
   hotMat: {fileID: 2100000, guid: 9f7fd3f1c6cd7424cb999a94952148dd, type: 2}
   norMat: {fileID: 2100000, guid: f60c2399bb5cba1449f9b49c16e509bd, type: 2}
   burnerRenderer: {fileID: 6757186122610943807}
@@ -588,7 +611,7 @@ GameObject:
   - component: {fileID: 5818926226270518467}
   m_Layer: 0
   m_Name: burner4
-  m_TagString: Untagged
+  m_TagString: Burner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -602,8 +625,8 @@ Transform:
   m_GameObject: {fileID: 6113358634325219331}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.050917, y: -0.014829, z: 0.0023011}
+  m_LocalScale: {x: 1.0212, y: 1.0212, z: 1.0514275}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3331126147053545794}
@@ -677,8 +700,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.31389183, y: 0.093149744, z: 0.21937229}
-  m_Center: {x: -2.6302276, y: 1.3611135, z: 0.10693622}
+  m_Size: {x: 0.21384203, y: 0.093149744, z: 0.15334181}
+  m_Center: {x: -2.6294794, y: 1.3611135, z: 0.11131974}
 --- !u!114 &5818926226270518467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,6 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94579478b57b824dba92bb29dddddd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHot: 0
   hotMat: {fileID: 2100000, guid: 9f7fd3f1c6cd7424cb999a94952148dd, type: 2}
   norMat: {fileID: 2100000, guid: f60c2399bb5cba1449f9b49c16e509bd, type: 2}
   burnerRenderer: {fileID: 8754213804822214240}
@@ -709,7 +733,7 @@ GameObject:
   - component: {fileID: 8113893034190995096}
   m_Layer: 0
   m_Name: burner3
-  m_TagString: Untagged
+  m_TagString: Burner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -723,8 +747,8 @@ Transform:
   m_GameObject: {fileID: 6221513567906058506}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.050917, y: -0.014829, z: 0.0023011}
+  m_LocalScale: {x: 1.0212, y: 1.0212, z: 1.0514275}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3331126147053545794}
@@ -798,8 +822,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.3183042, y: 0.08302638, z: 0.21608837}
-  m_Center: {x: -2.174668, y: 1.3560517, z: 0.10972984}
+  m_Size: {x: 0.21676247, y: 0.08302638, z: 0.15119302}
+  m_Center: {x: -2.168694, y: 1.3560517, z: 0.11350808}
 --- !u!114 &8113893034190995096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,6 +836,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94579478b57b824dba92bb29dddddd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHot: 0
   hotMat: {fileID: 2100000, guid: 9f7fd3f1c6cd7424cb999a94952148dd, type: 2}
   norMat: {fileID: 2100000, guid: f60c2399bb5cba1449f9b49c16e509bd, type: 2}
   burnerRenderer: {fileID: 6198249932616802544}
@@ -830,7 +855,7 @@ GameObject:
   - component: {fileID: 695726843868984374}
   m_Layer: 0
   m_Name: burner1
-  m_TagString: Untagged
+  m_TagString: Burner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -844,8 +869,8 @@ Transform:
   m_GameObject: {fileID: 7294184828852954595}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.050917, y: -0.014829, z: 0.0023011}
+  m_LocalScale: {x: 1.0212, y: 1.0212, z: 1.0514275}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3331126147053545794}
@@ -919,8 +944,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.30844763, y: 0.09371114, z: 0.22109015}
-  m_Center: {x: -2.1717799, y: 1.3613948, z: -0.2077612}
+  m_Size: {x: 0.21885139, y: 0.09371114, z: 0.16224264}
+  m_Center: {x: -2.1687922, y: 1.3613948, z: -0.20393257}
 --- !u!114 &695726843868984374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,6 +958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94579478b57b824dba92bb29dddddd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isHot: 0
   hotMat: {fileID: 2100000, guid: 9f7fd3f1c6cd7424cb999a94952148dd, type: 2}
   norMat: {fileID: 2100000, guid: f60c2399bb5cba1449f9b49c16e509bd, type: 2}
   burnerRenderer: {fileID: 3419337611600181377}
@@ -1041,11 +1067,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3243335
+      value: 1.296
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.40799996
+      value: 0.4460001
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1107,11 +1133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3243335
+      value: 1.296
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.40799996
+      value: 0.4460001
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1173,11 +1199,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3243335
+      value: 1.296
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.40799996
+      value: 0.4460001
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1239,11 +1265,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3243335
+      value: 1.296
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.40799996
+      value: 0.446
       objectReference: {fileID: 0}
     - target: {fileID: 3620826801113282172, guid: d656882135618df45b5a867c75bc6ae0, type: 3}
       propertyPath: m_LocalRotation.w

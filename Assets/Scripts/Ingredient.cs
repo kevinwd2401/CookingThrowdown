@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 public class Ingredient : MonoBehaviour
@@ -10,6 +11,13 @@ public class Ingredient : MonoBehaviour
 
     public Material cookedMat;
     public Material burntMat;
+
+    public AudioSource audioSource;
+    public AudioClip ding;
+
+    private void Start() {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     // called when ingredient is on hot pan
     public void Cook(float heatIntensity) {
@@ -30,14 +38,18 @@ public class Ingredient : MonoBehaviour
         
     private void OnCooked() {
         Debug.Log(gameObject.name + " is cooked!");
+
         // TODO: change mesh/mat/color/make sound
         transform.Find("Mesh").GetComponent<Renderer>().material = cookedMat;
+        audioSource.PlayOneShot(ding, 1.0f);
     }
 
     private void OnBurnt() {
         Debug.Log(gameObject.name + " is burnt!");
+
         // TODO: change mesh/mat/color/make sound
         transform.Find("Mesh").GetComponent<Renderer>().material = cookedMat;
+        audioSource.PlayOneShot(ding, 1.0f);
     }
 
     public virtual void ThrowableOnCollide(Collision c){

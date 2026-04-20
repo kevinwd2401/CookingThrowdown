@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,13 @@ public class Pan : MonoBehaviour
     public bool isHot;
     private List<Ingredient> ingredientsInPan = new List<Ingredient>();
     private Burner currentBurner;
+
+    public AudioSource audioSource;
+    public AudioClip ding;
+
+    private void Start() {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Update() {
         // check if the burner is on
@@ -34,7 +42,6 @@ public class Pan : MonoBehaviour
         // detect burner
         if (other.CompareTag("Burner")) {
             currentBurner = other.GetComponent<Burner>();
-            isHot = true;
             Debug.Log("Hot Pan!");
         }
     }
