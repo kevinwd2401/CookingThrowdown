@@ -20,7 +20,6 @@ Shader "FREE Food Pack/Food_URP"
             #pragma vertex vert
             #pragma fragment frag
 
-            // ⭐ 关键：支持 GPU Instancing + XR
             #pragma multi_compile_instancing
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
 
@@ -31,7 +30,6 @@ Shader "FREE Food Pack/Food_URP"
                 float4 positionOS : POSITION;
                 float2 uv : TEXCOORD0;
 
-                // ⭐ XR / Instancing 必须
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -40,7 +38,6 @@ Shader "FREE Food Pack/Food_URP"
                 float4 positionHCS : SV_POSITION;
                 float2 uv : TEXCOORD0;
 
-                // ⭐ XR stereo 输出
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
@@ -53,7 +50,6 @@ Shader "FREE Food Pack/Food_URP"
             {
                 Varyings OUT;
 
-                // ⭐ XR 必须初始化
                 UNITY_SETUP_INSTANCE_ID(IN);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
 
@@ -65,7 +61,6 @@ Shader "FREE Food Pack/Food_URP"
 
             half4 frag (Varyings IN) : SV_Target
             {
-                // ⭐ XR 必须
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
 
                 float4 tex = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv);
