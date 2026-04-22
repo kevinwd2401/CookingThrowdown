@@ -69,8 +69,9 @@ public class NPCThrowing : MonoBehaviour
         }
     }
 
-    private void ThrowAtPlayer(Vector3 target, float speed = 10f)
+    private void ThrowAtPlayer(Vector3 target, float angleDeg = 55f)
     {
+        Debug.Log(Time.timeScale);
         Vector3 start = spawnPt.position;
 
         Vector3 toTarget = target - start;
@@ -79,39 +80,46 @@ public class NPCThrowing : MonoBehaviour
         float x = toTargetXZ.magnitude;   // horizontal distance
         float y = toTarget.y;             // vertical difference
         float g = Mathf.Abs(Physics.gravity.y);
-        float v = speed;
 
-        float v2 = v * v;
-        float discriminant = v2 * v2 - g * (g * x * x + 2f * y * v2);
+        float angle = angleDeg * Mathf.Deg2Rad;
 
-        // Target cannot be hit with this speed
-        if (discriminant < 0f) {
-            Debug.Log("Cannot throw");
+        float cos = Mathf.Cos(angle);
+        float sin = Mathf.Sin(angle);
+
+        float denom = 2f * cos * cos * (x * Mathf.Tan(angle) - y);
+
+        // Cannot hit target with this angle
+        if (denom <= 0f) {
+            Debug.Log("Cannot throw at this angle");
             return;
         }
 
+        float v = Mathf.Sqrt((g * x * x) / denom);
+
         if (GameManager.Instance.throwingList.Length == 0) return;
 
-        GameObject prefab = GameManager.Instance.throwingList[Random.Range(0, GameManager.Instance.throwingList.Length)];
+        GameObject prefab = GameManager.Instance.throwingList[
+            Random.Range(0, GameManager.Instance.throwingList.Length)
+        ];
+
         GameObject proj = Instantiate(prefab, spawnPt.position, Quaternion.identity);
+        Vector3 randomDir = Quaternion.AngleAxis(
+            Random.Range(-20, 20),
+            Random.onUnitSphere
+        ) * Vector3.up;
+
+        proj.transform.forward = randomDir;
 
         Rigidbody rb = proj.GetComponent<Rigidbody>();
         if (rb == null) return;
+
         proj.GetComponent<Throwable>().InitializeThrown();
-
-        float sqrt = Mathf.Sqrt(discriminant);
-
-        float tanTheta = (Random.value > 0.0f) // use high arc?
-            ? (v2 + sqrt) / (g * x)
-            : (v2 - sqrt) / (g * x);
-
-        float angle = Mathf.Atan(tanTheta);
 
         Vector3 dir = toTargetXZ.normalized;
 
         Vector3 velocity =
-            dir * (v * Mathf.Cos(angle)) +
-            Vector3.up * (v * Mathf.Sin(angle));
+            dir * (v * cos) +
+            Vector3.up * (v * sin);
 
         rb.velocity = velocity;
     }
