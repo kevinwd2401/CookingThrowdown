@@ -31,11 +31,13 @@ public class Plate : MonoBehaviour
         foreach (Ingredient item in ingredientsOnPlate) {
             // check for cooked steak
             if (item.ingredientId == 0 && item.cookStatus == 1) {
+                Debug.Log("cooked steak on plate");
                 hasSteak = true;
             }
         }
 
         if (hasSteak && ingredientsOnPlate.Count == 1) {
+            Debug.Log("recipe complete = true");
             recipeComplete = true;
         }
 
