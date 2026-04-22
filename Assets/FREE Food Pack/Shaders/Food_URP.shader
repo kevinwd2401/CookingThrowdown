@@ -2,17 +2,22 @@ Shader "FREE Food Pack/Food_URP"
 {
     Properties
     {
-        _BaseMap ("Texture", 2D) = "white" {}
-        _BaseColor ("Color", Color) = (1,1,1,1)
+        _MainTex ("MainTex", 2D) = "white" {}
+        _FresnelSize ("FresnelSize", Range(0.5, 5)) = 1
+        _FresnelIntensity ("FresnelIntensity", Float) = 0.2
+        _FresnelColor ("FresnelColor", Color) = (1,1,1,1)
+        _Push ("Push", Range(0, 0.01)) = 0
+        _Speed ("Speed", Float) = 1
+        _Intensity ("Intensity", Float) = 1
     }
 
     SubShader
     {
-        Tags { "RenderType"="Opaque" "Queue"="Geometry" }
+        Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalRenderPipeline" }
 
         Pass
         {
-            Name "ForwardLit"
+            Name "UniversalForward"
             Tags { "LightMode"="UniversalForward" }
 
             HLSLPROGRAM
@@ -20,51 +25,69 @@ Shader "FREE Food Pack/Food_URP"
             #pragma vertex vert
             #pragma fragment frag
 
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
-
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct Attributes
             {
                 float4 positionOS : POSITION;
+                float3 normalOS : NORMAL;
                 float2 uv : TEXCOORD0;
-
-                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct Varyings
             {
                 float4 positionHCS : SV_POSITION;
                 float2 uv : TEXCOORD0;
-
-                UNITY_VERTEX_OUTPUT_STEREO
+                float3 normalWS : TEXCOORD1;
+                float3 positionWS : TEXCOORD2;
             };
 
-            TEXTURE2D(_BaseMap);
-            SAMPLER(sampler_BaseMap);
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
 
-            float4 _BaseColor;
+            CBUFFER_START(UnityPerMaterial)
+                float4 _MainTex_ST;
+                float _FresnelSize;
+                float _FresnelIntensity;
+                float4 _FresnelColor;
+                float _Push;
+                float _Speed;
+                float _Intensity;
+            CBUFFER_END
 
             Varyings vert (Attributes IN)
             {
                 Varyings OUT;
 
-                UNITY_SETUP_INSTANCE_ID(IN);
-                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
+                float t = _Time.y * _Speed;
+                float wobble = _Push * (sin(t) * 0.5 + 0.5);
 
-                OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
-                OUT.uv = IN.uv;
+                float3 posOS = IN.positionOS.xyz + IN.normalOS * wobble;
+
+                VertexPositionInputs posInputs = GetVertexPositionInputs(float4(posOS, 1.0));
+                VertexNormalInputs normalInputs = GetVertexNormalInputs(IN.normalOS);
+
+                OUT.positionHCS = posInputs.positionCS;
+                OUT.positionWS = posInputs.positionWS;
+                OUT.normalWS = normalize(normalInputs.normalWS);
+                OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
 
                 return OUT;
             }
 
             half4 frag (Varyings IN) : SV_Target
             {
-                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
+                float3 normalWS = normalize(IN.normalWS);
+                float3 viewDir = normalize(GetCameraPositionWS() - IN.positionWS);
 
-                float4 tex = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv);
-                return tex * _BaseColor;
+                float3 baseCol = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv).rgb;
+
+                float fresnel = pow(1.0 - saturate(dot(normalWS, viewDir)), _FresnelSize);
+                float3 rim = _FresnelColor.rgb * fresnel * _FresnelIntensity;
+
+                float3 finalColor = (baseCol + rim) * _Intensity;
+
+                return half4(finalColor, 1);
             }
 
             ENDHLSL
