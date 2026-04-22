@@ -25,6 +25,10 @@ Shader "FREE Food Pack/Food_URP"
             #pragma vertex vert
             #pragma fragment frag
 
+            // XR / Instancing 关键编译项
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ DOTS_INSTANCING_ON
+
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
             struct Attributes
@@ -32,6 +36,8 @@ Shader "FREE Food Pack/Food_URP"
                 float4 positionOS : POSITION;
                 float3 normalOS : NORMAL;
                 float2 uv : TEXCOORD0;
+
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct Varyings
@@ -40,6 +46,8 @@ Shader "FREE Food Pack/Food_URP"
                 float2 uv : TEXCOORD0;
                 float3 normalWS : TEXCOORD1;
                 float3 positionWS : TEXCOORD2;
+
+                UNITY_VERTEX_OUTPUT_STEREO
             };
 
             TEXTURE2D(_MainTex);
@@ -59,6 +67,9 @@ Shader "FREE Food Pack/Food_URP"
             {
                 Varyings OUT;
 
+                UNITY_SETUP_INSTANCE_ID(IN);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
+
                 float t = _Time.y * _Speed;
                 float wobble = _Push * (sin(t) * 0.5 + 0.5);
 
@@ -77,6 +88,8 @@ Shader "FREE Food Pack/Food_URP"
 
             half4 frag (Varyings IN) : SV_Target
             {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
+
                 float3 normalWS = normalize(IN.normalWS);
                 float3 viewDir = normalize(GetCameraPositionWS() - IN.positionWS);
 
