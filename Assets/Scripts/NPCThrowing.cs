@@ -54,10 +54,8 @@ public class NPCThrowing : MonoBehaviour
                 audioSource.clip = audioList[0];
                 audioSource.Play();
                 yield return new WaitForSeconds(1f);
-                Vector3 r = Random.insideUnitSphere;
-                r.y = 0f;
 
-                Vector3 target = GameManager.Instance.playerTrans.position + new Vector3(r.x, 1.0f, r.z);
+                Vector3 target = GameManager.Instance.playerTrans.position + new Vector3(2f * Random.value - 1f, 1.0f, 0.1f * Random.value);
 
                 ThrowAtPlayer(target);
 

@@ -46,6 +46,7 @@ public class Throwable : MonoBehaviour
     }
 
     public void RemoveIngredient() {
+        GameManager.Instance.npcTransforms.Remove(this.transform);
         Destroy(gameObject);
     }
 
