@@ -2118,7 +2118,7 @@ MonoBehaviour:
   - {fileID: 2319525426537470301, guid: 351de5790ff550a46bcd7058671acf9d, type: 3}
   - {fileID: 190603203797462967, guid: 1cfdec026e71ff241a15ff56d5971d4d, type: 3}
   playerTrans: {fileID: 63760320}
-  endGameText: {fileID: 0}
+  endGameText: {fileID: 71199997}
   audioSource: {fileID: 867739589}
   winAudio: {fileID: 8300000, guid: 4bb21448bb21f1c4aa913df06ebd6b73, type: 3}
   timer: 360

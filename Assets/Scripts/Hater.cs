@@ -50,7 +50,9 @@ public class Hater : MonoBehaviour
         }
     }
 
-    
+    public void SetRage(bool active) {
+        thrower.SetRage(active);
+    }
 
     private void Leave()
     {

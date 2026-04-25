@@ -7,10 +7,11 @@ public class NPCThrowing : MonoBehaviour
     [SerializeField] Transform spawnPt;
     public Material[] tempMats;
     public AudioClip[] audioList;
+    public ParticleSystem ps;
     public Hater hater;
     MeshRenderer mr;
     AudioSource audioSource;
-    bool canThrow;
+    bool canThrow, rage;
     void Start()
     {
         StartCoroutine(ThrowCor());
@@ -50,25 +51,68 @@ public class NPCThrowing : MonoBehaviour
         {
             if (canThrow)
             {
-                mr.material = tempMats[1];
+                if (rage) {
+                    mr.material = tempMats[1];
+                    if (ps != null && !ps.isPlaying) {
+                        ps.Play();
+                    }
+                } else {
+                    mr.material = tempMats[2];
+                }
 
-                audioSource.clip = audioList[0];
+                audioSource.clip = audioList[Random.Range(0, audioList.Length)];
                 audioSource.Play();
+                GameObject proj = SpawnThrowable();
+
+
                 yield return new WaitForSeconds(1f);
 
                 Vector3 target = GameManager.Instance.playerTrans.position + new Vector3(2f * Random.value - 1f, 1.0f, 0.1f * Random.value);
 
-                ThrowAtPlayer(target);
+                if (proj != null)
+                    ThrowAtPlayer(proj, target);
 
                 yield return new WaitForSeconds(0.2f);
-                mr.material = tempMats[0];
+
+                if (!rage) 
+                    mr.material = tempMats[0];
             }
 
-            yield return new WaitForSeconds(14f + 6f * Random.value);
+            yield return new WaitForSeconds(rage ? (2f) : (16f + 16f * Random.value));
         }
     }
 
-    private void ThrowAtPlayer(Vector3 target, float angleDeg = 55f)
+    public void SetRage(bool active) {
+        rage = active;
+        if (!active && ps != null) {
+            ps.Stop();
+        }
+    }
+
+    private GameObject SpawnThrowable() {
+        if (GameManager.Instance.throwingList.Length == 0) return null;
+
+        GameObject prefab = GameManager.Instance.throwingList[
+            Random.Range(0, GameManager.Instance.throwingList.Length)
+        ];
+
+        GameObject proj = Instantiate(prefab, spawnPt.position, Quaternion.identity);
+        Vector3 randomDir = Quaternion.AngleAxis(
+            Random.Range(-20, 20),
+            Random.onUnitSphere
+        ) * Vector3.up;
+        proj.transform.forward = randomDir;
+
+        Rigidbody rb = proj.GetComponent<Rigidbody>();
+        if (rb == null) return null;
+        rb.useGravity = false;
+
+        proj.GetComponent<Throwable>().InitializeThrown();
+
+        return proj;
+    }
+
+    private void ThrowAtPlayer(GameObject proj, Vector3 target, float angleDeg = 55f)
     {
         Vector3 start = spawnPt.position;
 
@@ -94,22 +138,8 @@ public class NPCThrowing : MonoBehaviour
 
         float v = Mathf.Sqrt((g * x * x) / denom);
 
-        if (GameManager.Instance.throwingList.Length == 0) return;
-
-        GameObject prefab = GameManager.Instance.throwingList[
-            Random.Range(0, GameManager.Instance.throwingList.Length)
-        ];
-
-        GameObject proj = Instantiate(prefab, spawnPt.position, Quaternion.identity);
-        Vector3 randomDir = Quaternion.AngleAxis(
-            Random.Range(-20, 20),
-            Random.onUnitSphere
-        ) * Vector3.up;
-
-        proj.transform.forward = randomDir;
-
         Rigidbody rb = proj.GetComponent<Rigidbody>();
-        if (rb == null) return;
+        rb.useGravity = true;
 
         proj.GetComponent<Throwable>().InitializeThrown();
 
@@ -124,6 +154,10 @@ public class NPCThrowing : MonoBehaviour
 
     public void SetThrow(bool throwing) {
         canThrow = throwing;
+        if (!throwing) {
+            mr.material = tempMats[0];
+            SetRage(false);
+        }
     }
 
     void OnTriggerEnter(Collider c)
