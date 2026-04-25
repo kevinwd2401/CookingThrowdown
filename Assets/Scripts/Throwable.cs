@@ -7,6 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 [RequireComponent(typeof(Ingredient))]
 public class Throwable : MonoBehaviour
 {
+    [SerializeField] ParticleSystem ps;
     private XRGrabInteractable grabInteractable;
     public bool hurtsPlayer = false;
     Ingredient ing;
@@ -47,6 +48,11 @@ public class Throwable : MonoBehaviour
 
     public void RemoveIngredient() {
         GameManager.Instance.npcTransforms.Remove(this.transform);
+        if (ps != null) {
+            ps.transform.parent = null;
+            ps.Play();
+            Destroy(ps.gameObject, 3);
+        }
         Destroy(gameObject);
     }
 
