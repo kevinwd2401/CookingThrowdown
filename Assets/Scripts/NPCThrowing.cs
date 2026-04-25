@@ -7,6 +7,7 @@ public class NPCThrowing : MonoBehaviour
     [SerializeField] Transform spawnPt;
     public Material[] tempMats;
     public AudioClip[] audioList;
+    public Hater hater;
     MeshRenderer mr;
     AudioSource audioSource;
     bool canThrow;
@@ -69,7 +70,6 @@ public class NPCThrowing : MonoBehaviour
 
     private void ThrowAtPlayer(Vector3 target, float angleDeg = 55f)
     {
-        Debug.Log(Time.timeScale);
         Vector3 start = spawnPt.position;
 
         Vector3 toTarget = target - start;
@@ -124,6 +124,18 @@ public class NPCThrowing : MonoBehaviour
 
     public void SetThrow(bool throwing) {
         canThrow = throwing;
+    }
+
+    void OnTriggerEnter(Collider c)
+    {
+        Throwable t = c.GetComponentInParent<Throwable>();
+
+        if (t != null && !t.hurtsPlayer)
+        {
+            Debug.Log("npc hit");
+            hater.Stun();
+            t.RemoveIngredient();
+        }
     }
 }
 

@@ -50,17 +50,7 @@ public class Hater : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider c)
-    {
-        Throwable t = c.GetComponentInParent<Throwable>();
-
-        if (t != null && !t.hurtsPlayer)
-        {
-            Debug.Log("npc hit");
-            Stun();
-            t.RemoveIngredient();
-        }
-    }
+    
 
     private void Leave()
     {
