@@ -293,6 +293,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 13e1c2117b020d746891e76c35481dce, type: 2}
   audioList:
   - {fileID: 8300000, guid: ef54e2d286649f240b35ed7bf363f3fe, type: 3}
+  - {fileID: 8300000, guid: acaafef270ecf914c94750960a247ac9, type: 3}
   ps: {fileID: 6913913350267671416}
   hater: {fileID: 7096761631172190911}
 --- !u!82 &4005859669049444607

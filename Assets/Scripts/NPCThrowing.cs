@@ -60,8 +60,17 @@ public class NPCThrowing : MonoBehaviour
                     mr.material = tempMats[2];
                 }
 
-                audioSource.clip = audioList[Random.Range(0, audioList.Length)];
+                // play audio
+                int clip = Random.Range(0, audioList.Length);
+                audioSource.clip = audioList[clip];
+                audioSource.volume = 1.0f;
+
+                if (clip == 1) {
+                    audioSource.volume = 0.70f;
+                }
+
                 audioSource.Play();
+
                 GameObject proj = SpawnThrowable();
 
 
