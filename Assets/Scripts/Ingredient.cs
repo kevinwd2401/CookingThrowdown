@@ -52,7 +52,7 @@ public class Ingredient : MonoBehaviour
         Debug.Log(gameObject.name + " is burnt!");
 
         // TODO: change mesh/mat/color/make sound
-        transform.Find("Mesh").GetComponent<Renderer>().material = cookedMat;
+        transform.Find("Mesh").GetComponent<Renderer>().material = burntMat;
         audioSource.PlayOneShot(burn, 0.75f);
     }
 

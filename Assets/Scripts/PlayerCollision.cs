@@ -16,8 +16,12 @@ public class PlayerCollision : MonoBehaviour
     private InputDevice device;
     private bool gripWasPressedLastFrame;
 
+    public AudioSource audioSource;
+    public AudioClip splat;
+
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         TryInitializeDevice();
     }
 
@@ -47,6 +51,7 @@ public class PlayerCollision : MonoBehaviour
         {
             GameManager.Instance.Reputation -= 10;
             t.RemoveIngredient();
+            audioSource.PlayOneShot(splat, 1.0f);
             Debug.Log("ow");
         }
     }

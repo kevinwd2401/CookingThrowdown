@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isHot: 0
+  snapDistance: 0.2
   audioSource: {fileID: 8203975050463232411}
 --- !u!82 &8203975050463232411
 AudioSource:
@@ -536,15 +537,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 292d016ef11f43945a7ba84875eade37, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.881
+      value: -2.358
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 292d016ef11f43945a7ba84875eade37, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.44
+      value: -3.5998864
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 292d016ef11f43945a7ba84875eade37, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.178
+      value: -9.204256
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 292d016ef11f43945a7ba84875eade37, type: 3}
       propertyPath: m_LocalRotation.w
@@ -552,7 +553,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 292d016ef11f43945a7ba84875eade37, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 292d016ef11f43945a7ba84875eade37, type: 3}
       propertyPath: m_LocalRotation.y
@@ -560,7 +561,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 292d016ef11f43945a7ba84875eade37, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 292d016ef11f43945a7ba84875eade37, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
