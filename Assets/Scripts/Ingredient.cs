@@ -7,7 +7,7 @@ public class Ingredient : MonoBehaviour
 {
     public float cookProgress = 0f;
     public float cookSpeed = 0.1f;
-    public int cookStatus = 0; // 0 = raw, 1 = cooked, 2 = burnt  
+    public int cookStatus = 0; // 0 = raw, 1 = cooked, 2 = burnt
     public bool isRotten = false;
     public int ingredientId = 0;
     // steak == 0
@@ -21,45 +21,78 @@ public class Ingredient : MonoBehaviour
     public AudioClip ding;
     public AudioClip burn;
 
-    private void Start() {
+    private void Awake()
+    {
         audioSource = GetComponent<AudioSource>();
+
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
-    // called when ingredient is on hot pan
-    public void Cook(float heatIntensity) {
+    private void Start()
+    {
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+    }
+
+    public void Cook(float heatIntensity)
+    {
         cookProgress += cookSpeed * heatIntensity * Time.deltaTime;
         Debug.Log(cookProgress);
-        if (cookProgress >= 2.0f) { // burnt
-            if (cookStatus != 2) {
+
+        if (cookProgress >= 2.0f)
+        {
+            if (cookStatus != 2)
+            {
                 cookStatus = 2;
                 OnBurnt();
             }
-        } else if (cookProgress >= 1.0f) { // cooked
-            if (cookStatus != 1) {
+        }
+        else if (cookProgress >= 1.0f)
+        {
+            if (cookStatus != 1)
+            {
                 cookStatus = 1;
                 OnCooked();
             }
         }
     }
-       
-    private void OnCooked() {
+
+    private void OnCooked()
+    {
         Debug.Log(gameObject.name + " is cooked!");
 
-        // TODO: change mesh/mat/color/make sound
-        transform.Find("Mesh").GetComponent<Renderer>().material = cookedMat;
-        audioSource.PlayOneShot(ding, 1.0f);
+        Renderer r = GetComponentInChildren<Renderer>();
+        if (r != null && cookedMat != null)
+            r.material = cookedMat;
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        if (audioSource != null && ding != null)
+            audioSource.PlayOneShot(ding, 1.0f);
+        else
+            Debug.LogWarning("Missing ding sound or AudioSource on " + name);
     }
 
-    private void OnBurnt() {
+    private void OnBurnt()
+    {
         Debug.Log(gameObject.name + " is burnt!");
 
-        // TODO: change mesh/mat/color/make sound
-        transform.Find("Mesh").GetComponent<Renderer>().material = burntMat;
-        audioSource.PlayOneShot(burn, 0.75f);
+        Renderer r = GetComponentInChildren<Renderer>();
+        if (r != null && burntMat != null)
+            r.material = burntMat;
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        if (audioSource != null && burn != null)
+            audioSource.PlayOneShot(burn, 0.75f);
+        else
+            Debug.LogWarning("Missing burn sound or AudioSource on " + name);
     }
 
-    public virtual void ThrowableOnCollide(Collision c){
-
+    public virtual void ThrowableOnCollide(Collision c)
+    {
     }
-
 }
