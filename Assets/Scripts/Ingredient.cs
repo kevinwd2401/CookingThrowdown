@@ -6,7 +6,7 @@ using UnityEngine;
 public class Ingredient : MonoBehaviour
 {
     public enum CookState { Raw, Cooked, Burnt }
-    public enum IngredientType { Steak, Bread, Tomato, Cheese }
+    public enum IngredientType { Steak, Bread, Tomato, Cheese, Patty}
     public float cookProgress = 0f; 
     public float cookSpeed = 0.1f; 
     public bool isRotten = false; 

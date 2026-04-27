@@ -6,12 +6,18 @@ using UnityEngine;
 public class Plate : MonoBehaviour
 {
     public List<Ingredient> ingredientsOnPlate = new List<Ingredient>();
+    public float currentStackHeight = 0.0f;
 
     void OnTriggerEnter(Collider other) {
         if (other.TryGetComponent<Ingredient>(out Ingredient food)) {
             if (!ingredientsOnPlate.Contains(food)) {
                 ingredientsOnPlate.Add(food);
                 CheckRecipeStatus();
+
+                // make it stay where it is more
+                other.attachedRigidbody.mass = 100.0f;
+                other.attachedRigidbody.drag = 2f;
+                other.attachedRigidbody.angularDrag = 10f;
             }
         }
     }
@@ -22,6 +28,7 @@ public class Plate : MonoBehaviour
             CheckRecipeStatus();
         }
     }
+
     void CheckRecipeStatus() {
         Dictionary<(Ingredient.IngredientType, Ingredient.CookState), int> counts
         = new Dictionary<(Ingredient.IngredientType, Ingredient.CookState), int>();

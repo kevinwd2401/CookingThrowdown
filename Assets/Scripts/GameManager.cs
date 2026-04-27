@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     public AudioSource audioSource;
     public AudioClip winAudio;
+    public AudioClip loseAudio;
 
     [SerializeField] int timer;
     private int reputation;
@@ -87,7 +88,7 @@ public class GameManager : MonoBehaviour
         throwingList = level.spawnableIngredients;
 
         // update player facing recipe
-        recipeTitle.text = level.recipe.recipeName;
+        recipeTitle.text = level.recipe.recipeName + " Recipe";
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < level.recipe.steps.Count; i++) {
@@ -112,6 +113,7 @@ public class GameManager : MonoBehaviour
     public void LoseGame() {
         if (gameOver) return;
         gameOver = true;
+        audioSource.PlayOneShot(loseAudio, 1.0f);
         NPCsLeave();
         Debug.Log("Game Lost! You died/timed out!");
     }

@@ -18,9 +18,9 @@ MonoBehaviour:
   - 1 slice cheese
   - 1 slice tomato
   - Cook burger patty
-  - Plate!
+  - Assemble and Plate!
   requirements:
-  - ingredient: 0
+  - ingredient: 4
     cookStatus: 1
     quantity: 1
     isSliced: 0
