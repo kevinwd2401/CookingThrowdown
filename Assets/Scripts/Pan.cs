@@ -1,31 +1,47 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Pan : MonoBehaviour
 {
     public bool isHot;
+
     private List<Ingredient> ingredientsInPan = new List<Ingredient>();
     private List<Burner> burnersInRange = new List<Burner>();
+
     public Transform heatPoint;
     public float snapDistance = 0.5f;
 
     public AudioSource audioSource;
 
-    private void Start() {
+    private bool panGrabbed = false;
+
+    private class HeldIngredientData
+    {
+        public Vector3 localPosition;
+        public Quaternion localRotation;
+        public Rigidbody rb;
+    }
+
+    private Dictionary<Ingredient, HeldIngredientData> heldData = new Dictionary<Ingredient, HeldIngredientData>();
+
+    private void Start()
+    {
         audioSource = GetComponent<AudioSource>();
     }
 
-    void Update() {
-        // check if the burner is on
+    void Update()
+    {
         Burner closest = null;
         float minDist = Mathf.Infinity;
 
-        foreach (Burner burner in burnersInRange) {
+        foreach (Burner burner in burnersInRange)
+        {
+            if (burner == null) continue;
+
             float dist = Vector3.Distance(heatPoint.position, burner.transform.position);
-            if (dist < minDist) {
+
+            if (dist < minDist)
+            {
                 minDist = dist;
                 closest = burner;
             }
@@ -33,88 +49,148 @@ public class Pan : MonoBehaviour
 
         isHot = closest != null && closest.isHot;
 
-        // cook ingredients in pan
-        if (isHot) {
-            foreach (Ingredient food in ingredientsInPan) {
-                food.Cook(1.0f);
+        if (isHot)
+        {
+            foreach (Ingredient food in ingredientsInPan)
+            {
+                if (food != null)
+                    food.Cook(1.0f);
             }
         }
 
-        // sizzle
         HandleSizzleSound();
     }
 
-    void HandleSizzleSound() {
-        // is hot and there is at least one ingredient in the pan
+    private void LateUpdate()
+    {
+        if (!panGrabbed) return;
+
+        foreach (var pair in heldData)
+        {
+            Ingredient food = pair.Key;
+            HeldIngredientData data = pair.Value;
+
+            if (food == null) continue;
+
+            food.transform.position = transform.TransformPoint(data.localPosition);
+            food.transform.rotation = transform.rotation * data.localRotation;
+        }
+    }
+
+    void HandleSizzleSound()
+    {
         bool shouldSizzle = isHot && ingredientsInPan.Count > 0;
 
-        if (shouldSizzle) {
-            if (!audioSource.isPlaying) {
+        if (audioSource == null) return;
+
+        if (shouldSizzle)
+        {
+            if (!audioSource.isPlaying)
                 audioSource.Play();
-            }
-        } else {
-            if (audioSource.isPlaying) {
+        }
+        else
+        {
+            if (audioSource.isPlaying)
                 audioSource.Stop();
-            }
         }
     }
 
-    void OnTriggerEnter(Collider other) {
-        // add ingredients
-        if (other.TryGetComponent<Ingredient>(out Ingredient food)) {
-            if (!ingredientsInPan.Contains(food)) ingredientsInPan.Add(food);
+    void OnTriggerEnter(Collider other)
+    {
+        Ingredient food = other.GetComponentInParent<Ingredient>();
+
+        if (food != null)
+        {
+            if (!ingredientsInPan.Contains(food))
+                ingredientsInPan.Add(food);
+
             Debug.Log("Ingredient Added to Pan!");
+
+            if (panGrabbed)
+                LockIngredientToPan(food);
         }
 
-        // detect burner
-        if (other.CompareTag("Burner")) {
+        if (other.CompareTag("Burner"))
+        {
             Burner burner = other.GetComponent<Burner>();
-            if (burner != null && !burnersInRange.Contains(burner)) {
+
+            if (burner != null && !burnersInRange.Contains(burner))
                 burnersInRange.Add(burner);
-            }
         }
     }
 
-    void OnTriggerExit(Collider other) {
-        // remove ingredients
-        if (other.TryGetComponent<Ingredient>(out Ingredient food)) {
+    void OnTriggerExit(Collider other)
+    {
+        Ingredient food = other.GetComponentInParent<Ingredient>();
+
+        if (food != null)
+        {
             ingredientsInPan.Remove(food);
+
+            if (!panGrabbed)
+                heldData.Remove(food);
         }
 
-        // stop heating if we leave the burner
-        if (other.CompareTag("Burner")) {
+        if (other.CompareTag("Burner"))
+        {
             Burner burner = other.GetComponent<Burner>();
-            if (burner != null) {
+
+            if (burner != null)
                 burnersInRange.Remove(burner);
-            }
         }
     }
 
-    public void OnGrabbed() {
-        foreach (Ingredient food in ingredientsInPan) {
-            food.transform.SetParent(transform);
-            Rigidbody rb = food.GetComponent<Rigidbody>();
+    public void OnGrabbed()
+    {
+        panGrabbed = true;
+        heldData.Clear();
 
-            rb.isKinematic = true;
-            rb.useGravity = false;
-
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-
-            rb.constraints = RigidbodyConstraints.FreezeAll;
-
-            Physics.SyncTransforms();
+        foreach (Ingredient food in ingredientsInPan)
+        {
+            if (food != null)
+                LockIngredientToPan(food);
         }
     }
 
-    public void OnReleased() {
-        foreach (Ingredient food in ingredientsInPan) {
-            food.transform.SetParent(null);
-            Rigidbody rb = food.GetComponent<Rigidbody>();
+    private void LockIngredientToPan(Ingredient food)
+    {
+        Rigidbody foodRb = food.GetComponent<Rigidbody>();
 
-            rb.isKinematic = false;
-            rb.useGravity = true;
-            rb.constraints = RigidbodyConstraints.None;
+        if (foodRb != null)
+        {
+            foodRb.velocity = Vector3.zero;
+            foodRb.angularVelocity = Vector3.zero;
+            foodRb.isKinematic = true;
+            foodRb.useGravity = false;
+            foodRb.constraints = RigidbodyConstraints.None;
         }
+
+        HeldIngredientData data = new HeldIngredientData();
+        data.localPosition = transform.InverseTransformPoint(food.transform.position);
+        data.localRotation = Quaternion.Inverse(transform.rotation) * food.transform.rotation;
+        data.rb = foodRb;
+
+        heldData[food] = data;
+    }
+
+    public void OnReleased()
+    {
+        panGrabbed = false;
+
+        foreach (var pair in heldData)
+        {
+            Ingredient food = pair.Key;
+            HeldIngredientData data = pair.Value;
+
+            if (food == null || data.rb == null) continue;
+
+            data.rb.isKinematic = false;
+            data.rb.useGravity = true;
+            data.rb.constraints = RigidbodyConstraints.None;
+            data.rb.velocity = Vector3.zero;
+            data.rb.angularVelocity = Vector3.zero;
+        }
+
+        heldData.Clear();
     }
 }
