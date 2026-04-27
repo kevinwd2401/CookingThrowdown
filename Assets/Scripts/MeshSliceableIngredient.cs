@@ -68,8 +68,8 @@ public class MeshSliceableIngredient : MonoBehaviour
             rb = piece.AddComponent<Rigidbody>();
 
         rb.mass = 0.2f;
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        rb.interpolation = RigidbodyInterpolation.None;
 
         rb.AddForce(forceDirection.normalized * pieceForce, ForceMode.Impulse);
 

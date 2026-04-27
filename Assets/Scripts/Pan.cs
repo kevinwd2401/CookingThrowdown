@@ -93,14 +93,28 @@ public class Pan : MonoBehaviour
     public void OnGrabbed() {
         foreach (Ingredient food in ingredientsInPan) {
             food.transform.SetParent(transform);
-            food.GetComponent<Rigidbody>().isKinematic = true;
+            Rigidbody rb = food.GetComponent<Rigidbody>();
+
+            rb.isKinematic = true;
+            rb.useGravity = false;
+
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+
+            Physics.SyncTransforms();
         }
     }
 
     public void OnReleased() {
         foreach (Ingredient food in ingredientsInPan) {
             food.transform.SetParent(null);
-            food.GetComponent<Rigidbody>().isKinematic = false;
+            Rigidbody rb = food.GetComponent<Rigidbody>();
+
+            rb.isKinematic = false;
+            rb.useGravity = true;
+            rb.constraints = RigidbodyConstraints.None;
         }
     }
 }

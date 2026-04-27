@@ -8,9 +8,11 @@ public class Ingredient : MonoBehaviour
     public float cookProgress = 0f;
     public float cookSpeed = 0.1f;
     public int cookStatus = 0; // 0 = raw, 1 = cooked, 2 = burnt  
+    public bool isRotten = false;
     public int ingredientId = 0;
     // steak == 0
     // cheese == 1
+    // tomato == 2
 
     public Material cookedMat;
     public Material burntMat;

@@ -27,16 +27,15 @@ public class Plate : MonoBehaviour
 
         // TODO: change this for each recipe
         bool recipeComplete = false;
-        bool hasSteak = false;
+        int count = 0;
         foreach (Ingredient item in ingredientsOnPlate) {
             // check for cooked steak
             if (item.ingredientId == 0 && item.cookStatus == 1) {
-                Debug.Log("cooked steak on plate");
-                hasSteak = true;
+                count += 1;
             }
         }
 
-        if (hasSteak && ingredientsOnPlate.Count == 1) {
+        if (count == 5 && ingredientsOnPlate.Count == 5) {
             Debug.Log("recipe complete = true");
             recipeComplete = true;
         }

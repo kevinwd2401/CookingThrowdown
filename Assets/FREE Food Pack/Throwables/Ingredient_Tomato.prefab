@@ -5093,6 +5093,7 @@ PrefabInstance:
       objectReference: {fileID: 4170886266424680429}
     m_RemovedComponents:
     - {fileID: 8184969590656506182, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+    - {fileID: 2500684274037516100, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
     m_RemovedGameObjects:
     - {fileID: 3906086667308624580, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
     - {fileID: 8332884538550337833, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
@@ -5103,10 +5104,41 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5991168069767549880, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6451359973666867514}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5803652243982802983, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7244178919896299765}
   m_SourcePrefab: {fileID: 100100000, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
 --- !u!4 &75287894527319080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5991168069767549880, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
   m_PrefabInstance: {fileID: 5922126226492247952}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &190603203797462967 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5803652243982802983, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+  m_PrefabInstance: {fileID: 5922126226492247952}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &7244178919896299765
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190603203797462967}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.045
+  m_Height: 0.11
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
