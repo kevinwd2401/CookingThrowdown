@@ -53,15 +53,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7828bfbff8856845895144fb70a7b37, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.431
+      value: 2.486
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7828bfbff8856845895144fb70a7b37, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2827
+      value: -3.7601864
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7828bfbff8856845895144fb70a7b37, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.243
+      value: -9.378
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7828bfbff8856845895144fb70a7b37, type: 3}
       propertyPath: m_LocalRotation.w
@@ -69,7 +69,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7828bfbff8856845895144fb70a7b37, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f7828bfbff8856845895144fb70a7b37, type: 3}
       propertyPath: m_LocalRotation.y
@@ -191,7 +191,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8962393341692277946}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -345,3 +345,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ingredientsOnPlate: []
+  currentStackHeight: 0

@@ -2148,7 +2148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 54439569029359076, guid: 0eb7c3b1bcdcd9341a511f6c74832342, type: 3}
       propertyPath: m_Mass
-      value: 500
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 54439569029359076, guid: 0eb7c3b1bcdcd9341a511f6c74832342, type: 3}
       propertyPath: m_IsKinematic
@@ -8843,6 +8843,10 @@ PrefabInstance:
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 5149896121241986053, guid: 8693e16077a40974cae31cbd82fa93cf, type: 3}
+      propertyPath: m_Mass
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9003,6 +9007,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1898813816}
     m_Modifications:
+    - target: {fileID: 1711441597588709129, guid: bc1a9880af42a564cbe88ffeff1244fd, type: 3}
+      propertyPath: m_Mass
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 8586959240358571520, guid: bc1a9880af42a564cbe88ffeff1244fd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.486

@@ -33,11 +33,13 @@ public class NPCManager : MonoBehaviour
                 npc.GetComponent<Hater>().manager = this;
                 GameManager.Instance.npcTransforms.Add(npc.transform);
             }
-            yield return new WaitForSecondsRealtime(Random.value + (counter/2) + 8);
+            yield return new WaitForSecondsRealtime(Random.value + (counter/1.5f) + 8);
 
             if (GameManager.Instance.npcTransforms.Count > 3 && Random.value > 0.4f + counter * 0.05f) {
                 var elements = GameManager.Instance.npcTransforms.ToArray();
-                chosenOne = elements[Random.Range(0, elements.Length)].gameObject.GetComponent<Hater>();
+                if (elements != null) {
+                    chosenOne = elements[Random.Range(0, elements.Length)].gameObject.GetComponent<Hater>();
+                }
                 chosenOne.SetRage(true);
             }
 
