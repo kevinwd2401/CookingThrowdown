@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.2
       objectReference: {fileID: 0}
+    - target: {fileID: 4332913837608317332, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+      propertyPath: isRotten
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5803652243982802983, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
       propertyPath: m_Name
       value: Ingredient_Steak

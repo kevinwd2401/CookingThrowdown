@@ -23,25 +23,33 @@ public class Plate : MonoBehaviour
         }
     }
     void CheckRecipeStatus() {
-        Debug.Log("Items on plate: " + ingredientsOnPlate.Count);
+        Dictionary<(Ingredient.IngredientType, Ingredient.CookState), int> counts
+        = new Dictionary<(Ingredient.IngredientType, Ingredient.CookState), int>();
 
-        // TODO: change this for each recipe
-        bool recipeComplete = false;
-        int count = 0;
+        // count what's on the plate
         foreach (Ingredient item in ingredientsOnPlate) {
-            // check for cooked steak
-            if (item.ingredientId == 0 && item.cookStatus == 1) {
-                count += 1;
+
+            var key = (item.ingredient, item.cookStatus);
+
+            if (!counts.ContainsKey(key)) {
+                counts[key] = 0;
+            }
+
+            counts[key]++;
+        }
+
+        // TODO: compare sliced
+        // compare against recipe
+        LevelData level = GameManager.Instance.levels[GameManager.currentLevelIndex];
+        foreach (var req in level.recipe.requirements) {
+
+            var key = (req.ingredient, req.cookStatus);
+
+            if (!counts.ContainsKey(key) || counts[key] < req.quantity) {
+                return;
             }
         }
 
-        if (count == 5 && ingredientsOnPlate.Count == 5) {
-            Debug.Log("recipe complete = true");
-            recipeComplete = true;
-        }
-
-        if (recipeComplete) {
-            GameManager.Instance.WinGame();
-        }
+        GameManager.Instance.WinGame();
     }
 }

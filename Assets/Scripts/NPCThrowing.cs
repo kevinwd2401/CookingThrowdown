@@ -66,7 +66,7 @@ public class NPCThrowing : MonoBehaviour
                 audioSource.volume = 1.0f;
 
                 if (clip == 1) {
-                    audioSource.volume = 0.70f;
+                    audioSource.volume = 0.40f;
                 }
 
                 audioSource.Play();

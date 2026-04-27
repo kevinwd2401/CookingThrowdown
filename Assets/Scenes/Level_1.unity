@@ -3372,6 +3372,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameEnded: 0
+  levels:
+  - {fileID: 11400000, guid: b0e53c906b4aeef4a964a58da872b659, type: 2}
+  - {fileID: 11400000, guid: 6fcf32b5fc37fee4aae7c0f2ed5e669d, type: 2}
   repSlider: {fileID: 825367365}
   timerText: {fileID: 1181535996}
   throwingList:
@@ -3380,6 +3383,8 @@ MonoBehaviour:
   - {fileID: 190603203797462967, guid: 1cfdec026e71ff241a15ff56d5971d4d, type: 3}
   playerTrans: {fileID: 63760320}
   endGameText: {fileID: 71199997}
+  recipeTitle: {fileID: 1439797385}
+  recipeSteps: {fileID: 1923589704}
   audioSource: {fileID: 867739589}
   winAudio: {fileID: 8300000, guid: 4bb21448bb21f1c4aa913df06ebd6b73, type: 3}
   timer: 360
@@ -8156,8 +8161,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.12
-  m_fontSizeBase: 0.12
+  m_fontSize: 0.11
+  m_fontSizeBase: 0.11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -5020,6 +5020,10 @@ PrefabInstance:
       value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 4332913837608317332, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+      propertyPath: ingredient
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332913837608317332, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
       propertyPath: ingredientId
       value: 3
       objectReference: {fileID: 0}
@@ -5091,6 +5095,10 @@ PrefabInstance:
       propertyPath: ps
       value: 
       objectReference: {fileID: 4170886266424680429}
+    - target: {fileID: 8516862062997329163, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+      propertyPath: crossSectionMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 0fb85a69726c0c64aa06ed284ba06648, type: 2}
     m_RemovedComponents:
     - {fileID: 8184969590656506182, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
     - {fileID: 2500684274037516100, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}

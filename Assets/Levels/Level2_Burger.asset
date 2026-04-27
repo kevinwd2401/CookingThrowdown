@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c07dfb83742c0f49ad80843bdee365e, type: 3}
+  m_Name: Level2_Burger
+  m_EditorClassIdentifier: 
+  levelName: Level 2
+  recipe: {fileID: 11400000, guid: f75724814ccb7ad4aafd45c045b2f21c, type: 2}
+  timeLimit: 360
+  startingReputation: 100
+  spawnableIngredients:
+  - {fileID: 190603203797462967, guid: b2b5b613cdada2441b876ed0c944a7f9, type: 3}
+  - {fileID: 2319525426537470301, guid: 351de5790ff550a46bcd7058671acf9d, type: 3}
+  - {fileID: 190603203797462967, guid: 1cfdec026e71ff241a15ff56d5971d4d, type: 3}
+  - {fileID: 190603203797462967, guid: 4e4259b3d93c11b4b9793fb52d891851, type: 3}

@@ -5,14 +5,13 @@ using UnityEngine;
 
 public class Ingredient : MonoBehaviour
 {
-    public float cookProgress = 0f;
-    public float cookSpeed = 0.1f;
-    public int cookStatus = 0; // 0 = raw, 1 = cooked, 2 = burnt
-    public bool isRotten = false;
-    public int ingredientId = 0;
-    // steak == 0
-    // cheese == 1
-    // tomato == 2
+    public enum CookState { Raw, Cooked, Burnt }
+    public enum IngredientType { Steak, Bread, Tomato, Cheese }
+    public float cookProgress = 0f; 
+    public float cookSpeed = 0.1f; 
+    public bool isRotten = false; 
+    public CookState cookStatus = CookState.Raw; 
+    public IngredientType ingredient = IngredientType.Steak;
 
     public Material cookedMat;
     public Material burntMat;
@@ -42,17 +41,17 @@ public class Ingredient : MonoBehaviour
 
         if (cookProgress >= 2.0f)
         {
-            if (cookStatus != 2)
+            if (cookStatus != CookState.Burnt)
             {
-                cookStatus = 2;
+                cookStatus = CookState.Burnt;
                 OnBurnt();
             }
         }
         else if (cookProgress >= 1.0f)
         {
-            if (cookStatus != 1)
+            if (cookStatus != CookState.Cooked)
             {
-                cookStatus = 1;
+                cookStatus = CookState.Cooked;
                 OnCooked();
             }
         }

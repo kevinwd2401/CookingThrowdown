@@ -280,8 +280,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cookProgress: 0
   cookSpeed: 0.1
+  isRotten: 0
   cookStatus: 0
-  ingredientId: 0
+  ingredient: 0
   cookedMat: {fileID: 2100000, guid: 02a1725d5ba00b94089f0579cc5588ab, type: 2}
   burntMat: {fileID: 2100000, guid: 52ff916109df364489df2fdff831a5e1, type: 2}
   audioSource: {fileID: -4756535486090499771}
@@ -415,6 +416,7 @@ GameObject:
   - component: {fileID: 3054373629983448171}
   - component: {fileID: 7772165776906582467}
   - component: {fileID: 6602367622771922372}
+  - component: {fileID: 4479933588666226031}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -487,6 +489,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4479933588666226031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8332884538550337833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53d312a3a78a224d8bae1616a6edbe6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crossSectionMaterial: {fileID: 2100000, guid: 65d930a4c443d2d479ae9f3d2089a190, type: 2}
+  maxSliceCount: 15
+  pieceForce: 0.05
 --- !u!1 &8571137804111500634
 GameObject:
   m_ObjectHideFlags: 0
