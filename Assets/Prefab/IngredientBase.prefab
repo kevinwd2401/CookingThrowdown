@@ -101,7 +101,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5803652243982802983}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 250
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -283,6 +283,7 @@ MonoBehaviour:
   cookProgress: 0
   cookSpeed: 0.1
   isRotten: 0
+  isSliced: 0
   cookStatus: 0
   ingredient: 0
   cookedMat: {fileID: 2100000, guid: 02a1725d5ba00b94089f0579cc5588ab, type: 2}

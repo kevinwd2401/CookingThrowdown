@@ -16,6 +16,13 @@ public class ToolRespawn : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    void Update() {
+        // If the tool falls below -5 meters (the floor is usually at 0)
+        if (transform.position.y < 1.75f) {
+            Respawn();
+        }
+    }
+
     public void Respawn()
     {
         // reset physics 
