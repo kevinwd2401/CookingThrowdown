@@ -117,7 +117,7 @@ public class MeshSliceableIngredient : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         rb.constraints = RigidbodyConstraints.None;
-        rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
         rb.interpolation = RigidbodyInterpolation.None;
 
         Ingredient newIngredient = piece.GetComponent<Ingredient>();
@@ -132,6 +132,7 @@ public class MeshSliceableIngredient : MonoBehaviour
             newIngredient.isRotten = originalIngredient.isRotten;
             newIngredient.cookStatus = originalIngredient.cookStatus;
             newIngredient.ingredient = originalIngredient.ingredient;
+            newIngredient.isSliced = true;
             
             newIngredient.cookedMat = originalIngredient.cookedMat;
             newIngredient.burntMat = originalIngredient.burntMat;

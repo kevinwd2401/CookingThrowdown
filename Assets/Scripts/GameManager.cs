@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
@@ -121,19 +122,27 @@ public class GameManager : MonoBehaviour
     }
 
     public int CalculateScore() {
-        int score = 0;
+        float score = 0; // max 100
 
+        float maxTime = (float)levels[currentLevelIndex].timeLimit;
+        float maxRep = (float)levels[currentLevelIndex].startingReputation;
+
+        // 50 (half) the points are from time + reputation
         // time bonus
-        score += timer * 10;
+        if (timer >= maxTime * 0.75f) score += 25;   
+        else if (timer >= maxTime * 0.5f) score += 15;
+        else if (timer > 0) score += 5;
 
         // reputation bonus
-        score += reputation * 5;
+        if (reputation >= maxRep * 0.8f) score += 25;
+        else if (reputation >= maxRep * 0.4f) score += 15;
+        else if (reputation > 0) score += 5;
 
-        // TODO: COOKING ACCURACY
         // TODO: ADD THIS WHERE PLAYER CAN SEE
+        // other 50 points from cooking accuracy 
         // score += CalculateCookingAccuracy();
 
-        return score;
+        return Mathf.RoundToInt(score);
     }
 
     public void SetNPCSpawnRate(float spawnRate) {
