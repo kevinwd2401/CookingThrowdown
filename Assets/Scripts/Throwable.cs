@@ -19,13 +19,10 @@ public class Throwable : MonoBehaviour
     [Header("Catch Settings")]
     [SerializeField] private float maxCatchDistance = 3.0f;
 
-    [Header("Manual Player Throw")]
-    [SerializeField] private float manualThrowMultiplier = 1.6f;
-    [SerializeField] private float maxManualThrowSpeed = 18f;
-
-    private Vector3 lastPosition;
-    private Vector3 estimatedVelocity;
-    private bool isHeld = false;
+    [Header("Default XR Throw Settings")]
+    [SerializeField] private float throwVelocityScale = 1.5f;
+    [SerializeField] private float throwAngularVelocityScale = 1.0f;
+    [SerializeField] private float throwSmoothingDuration = 0.18f;
 
     void Awake()
     {
@@ -33,24 +30,14 @@ public class Throwable : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         ing = GetComponent<Ingredient>();
 
-        // We apply throw velocity ourselves.
-        grabInteractable.throwOnDetach = false;
-    }
+        grabInteractable.throwOnDetach = true;
+        grabInteractable.throwVelocityScale = throwVelocityScale;
+        grabInteractable.throwAngularVelocityScale = throwAngularVelocityScale;
+        grabInteractable.throwSmoothingDuration = throwSmoothingDuration;
 
-    void Start()
-    {
-        lastPosition = transform.position;
-    }
-
-    void Update()
-    {
-        if (isHeld)
-        {
-            float dt = Mathf.Max(Time.deltaTime, 0.0001f);
-            estimatedVelocity = (transform.position - lastPosition) / dt;
-        }
-
-        lastPosition = transform.position;
+        grabInteractable.trackPosition = true;
+        grabInteractable.trackRotation = true;
+        grabInteractable.movementType = XRBaseInteractable.MovementType.VelocityTracking;
     }
 
     void OnEnable()
@@ -67,7 +54,6 @@ public class Throwable : MonoBehaviour
 
     public void InitializeThrown()
     {
-        // NPCThrowing controls gravity/velocity.
         hurtsPlayer = true;
     }
 
@@ -116,29 +102,26 @@ public class Throwable : MonoBehaviour
                 if (manager != null)
                     manager.SelectExit(interactor, grabInteractable);
             }
+
             return;
         }
 
-        isHeld = true;
-        lastPosition = transform.position;
-        estimatedVelocity = Vector3.zero;
+        transform.SetParent(null);
 
         if (rb != null)
         {
             rb.isKinematic = false;
             rb.useGravity = true;
             rb.constraints = RigidbodyConstraints.None;
+
         }
 
-        transform.SetParent(null);
-
-        Debug.Log("Ingredient Grabbed");
         hurtsPlayer = false;
+        Debug.Log("Ingredient Grabbed");
     }
 
     private void OnRelease(SelectExitEventArgs args)
     {
-        isHeld = false;
         transform.SetParent(null);
 
         if (rb != null)
@@ -147,22 +130,12 @@ public class Throwable : MonoBehaviour
             rb.useGravity = true;
             rb.constraints = RigidbodyConstraints.None;
 
-            Vector3 throwVelocity = estimatedVelocity * manualThrowMultiplier;
-
-            if (throwVelocity.magnitude > maxManualThrowSpeed)
-                throwVelocity = throwVelocity.normalized * maxManualThrowSpeed;
-
-            rb.velocity = throwVelocity;
         }
     }
 
     public void MagnetCatch(Transform hand)
     {
         hurtsPlayer = false;
-
-        isHeld = true;
-        lastPosition = transform.position;
-        estimatedVelocity = Vector3.zero;
 
         if (rb != null)
         {
