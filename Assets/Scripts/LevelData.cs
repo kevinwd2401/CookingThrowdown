@@ -8,6 +8,7 @@ public class LevelData : ScriptableObject {
     public Recipe recipe;
 
     public int timeLimit;
+    public float spawnRate;
     public int startingReputation;
 
     public GameObject[] spawnableIngredients;

@@ -90,6 +90,8 @@ public class GameManager : MonoBehaviour
         // update player facing recipe
         recipeTitle.text = level.recipe.recipeName + " Recipe";
 
+        SetNPCSpawnRate(level.spawnRate);
+
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < level.recipe.steps.Count; i++) {
             sb.AppendLine($"{i + 1}. {level.recipe.steps[i]}");

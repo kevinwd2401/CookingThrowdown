@@ -15,6 +15,7 @@ MonoBehaviour:
   levelName: Level 1
   recipe: {fileID: 11400000, guid: 38b4fce87319d0a48a24be77de8fbffb, type: 2}
   timeLimit: 360
+  spawnRate: 0.8
   startingReputation: 100
   spawnableIngredients:
   - {fileID: 190603203797462967, guid: b2b5b613cdada2441b876ed0c944a7f9, type: 3}
