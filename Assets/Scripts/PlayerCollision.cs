@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -7,17 +6,26 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class PlayerCollision : MonoBehaviour
 {
-    [Header("Catch Settings")]
-    [SerializeField] private float catchRadius = 1.25f;   // bigger catch range
+    [Header("Sphere Catch Settings")]
+    [SerializeField] private float catchRadius = 1.25f;
     [SerializeField] private LayerMask catchLayer;
     [SerializeField] private XRNode handNode = XRNode.RightHand;
     [SerializeField] private XRDirectInteractor directInteractor;
+    [SerializeField] private Transform catchAttachPoint;
+
+    [Header("Important")]
+    [SerializeField] private bool onlyCatchThrownIngredients = true;
+
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip splat;
 
     private InputDevice device;
     private bool gripWasPressedLastFrame;
+    private bool triggerWasPressedLastFrame;
 
-    public AudioSource audioSource;
-    public AudioClip splat;
+    private XRGrabInteractable currentlyHeld;
+    private XRInteractionManager currentManager;
 
     void Start()
     {
@@ -31,16 +39,28 @@ public class PlayerCollision : MonoBehaviour
             TryInitializeDevice();
 
         bool gripPressed = false;
-        if (device.isValid)
-            device.TryGetFeatureValue(CommonUsages.gripButton, out gripPressed);
+        bool triggerPressed = false;
 
-        // Detect grip press this frame
-        if (gripPressed && !gripWasPressedLastFrame)
+        if (device.isValid)
         {
-            TryCatchNearest();
+            device.TryGetFeatureValue(CommonUsages.gripButton, out gripPressed);
+            device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerPressed);
         }
 
+        bool anyPressed = gripPressed || triggerPressed;
+        bool anyWasPressed = gripWasPressedLastFrame || triggerWasPressedLastFrame;
+
+        bool pressedThisFrame = anyPressed && !anyWasPressed;
+        bool releasedThisFrame = !anyPressed && anyWasPressed;
+
+        if (pressedThisFrame)
+            TryCatchNearest();
+
+        if (releasedThisFrame)
+            ReleaseHeldObject();
+
         gripWasPressedLastFrame = gripPressed;
+        triggerWasPressedLastFrame = triggerPressed;
     }
 
     void OnTriggerEnter(Collider c)
@@ -51,7 +71,10 @@ public class PlayerCollision : MonoBehaviour
         {
             GameManager.Instance.Reputation -= 10;
             t.RemoveIngredient();
-            audioSource.PlayOneShot(splat, 1.0f);
+
+            if (audioSource != null && splat != null)
+                audioSource.PlayOneShot(splat, 1.0f);
+
             Debug.Log("ow");
         }
     }
@@ -63,6 +86,12 @@ public class PlayerCollision : MonoBehaviour
 
     private void TryCatchNearest()
     {
+        if (directInteractor == null) return;
+
+        // If the hand already grabbed something, don't sphere catch another.
+        if (currentlyHeld != null || directInteractor.hasSelection)
+            return;
+
         Collider[] hits = Physics.OverlapSphere(transform.position, catchRadius, catchLayer);
 
         Throwable closestThrowable = null;
@@ -73,12 +102,20 @@ public class PlayerCollision : MonoBehaviour
         {
             Throwable t = hit.GetComponentInParent<Throwable>();
             if (t == null) continue;
-            if (!t.hurtsPlayer) continue;
 
-            XRGrabInteractable grab = t.GetComponent<XRGrabInteractable>();
+            // IMPORTANT:
+            // Only sphere-catch ingredients thrown by NPC.
+            // Ingredients sitting in pan usually have hurtsPlayer = false.
+            if (onlyCatchThrownIngredients && !t.hurtsPlayer)
+                continue;
+
+            XRGrabInteractable grab = t.GetComponentInParent<XRGrabInteractable>();
             if (grab == null) continue;
 
+            if (grab.isSelected) continue;
+
             float dist = Vector3.Distance(transform.position, t.transform.position);
+
             if (dist < closestDist)
             {
                 closestDist = dist;
@@ -87,7 +124,7 @@ public class PlayerCollision : MonoBehaviour
             }
         }
 
-        if (closestThrowable == null || closestGrab == null || directInteractor == null)
+        if (closestThrowable == null || closestGrab == null)
             return;
 
         XRInteractionManager manager = closestGrab.interactionManager;
@@ -100,26 +137,46 @@ public class PlayerCollision : MonoBehaviour
             return;
         }
 
+        currentlyHeld = closestGrab;
+        currentManager = manager;
+
         closestThrowable.hurtsPlayer = false;
 
         Rigidbody rb = closestThrowable.GetComponent<Rigidbody>();
         if (rb != null)
         {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+            rb.constraints = RigidbodyConstraints.None;
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
         }
 
-        closestThrowable.transform.position = Vector3.Lerp(
-            closestThrowable.transform.position,
-            transform.position,
-            0.65f
-        );
+        Transform snapTarget = catchAttachPoint != null ? catchAttachPoint : transform;
+
+        closestThrowable.transform.position = snapTarget.position;
+        closestThrowable.transform.rotation = snapTarget.rotation;
 
         manager.SelectEnter(
-    (IXRSelectInteractor)directInteractor,
-    (IXRSelectInteractable)closestGrab
-);
-        Debug.Log("Magnet catch: " + closestThrowable.name);
+            (IXRSelectInteractor)directInteractor,
+            (IXRSelectInteractable)closestGrab
+        );
+
+        Debug.Log("Sphere catch nearest thrown ingredient only: " + closestThrowable.name);
+    }
+
+    private void ReleaseHeldObject()
+    {
+        if (currentlyHeld != null && currentManager != null && directInteractor != null)
+        {
+            currentManager.SelectExit(
+                (IXRSelectInteractor)directInteractor,
+                (IXRSelectInteractable)currentlyHeld
+            );
+        }
+
+        currentlyHeld = null;
+        currentManager = null;
     }
 
     private void OnDrawGizmosSelected()
