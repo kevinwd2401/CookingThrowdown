@@ -5,6 +5,7 @@ using System.Linq;
 
 public class NPCManager : MonoBehaviour
 {
+    public float SpawnRate = 1;
     public GameObject npcPrefab;
     GameManager gm;
     private int counter;
@@ -33,7 +34,7 @@ public class NPCManager : MonoBehaviour
                 npc.GetComponent<Hater>().manager = this;
                 GameManager.Instance.npcTransforms.Add(npc.transform);
             }
-            yield return new WaitForSecondsRealtime(Random.value + (counter/1.5f) + 8);
+            yield return new WaitForSecondsRealtime((Random.value + (counter/1.5f) + 8) * SpawnRate);
 
             if (GameManager.Instance.npcTransforms.Count > 3 && Random.value > 0.4f + counter * 0.05f) {
                 var elements = GameManager.Instance.npcTransforms.ToArray();

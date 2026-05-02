@@ -134,6 +134,10 @@ public class GameManager : MonoBehaviour
         return score;
     }
 
+    public void SetNPCSpawnRate(float spawnRate) {
+        GetComponent<NPCManager>().SpawnRate = spawnRate;
+    }
+
     private void NPCsLeave() {
         foreach (Transform t in npcTransforms) {
             if (t != null) {
