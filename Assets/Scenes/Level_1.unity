@@ -520,6 +520,8 @@ MonoBehaviour:
     m_Bits: 0
   handNode: 5
   directInteractor: {fileID: 0}
+  catchAttachPoint: {fileID: 0}
+  onlyCatchThrownIngredients: 1
   audioSource: {fileID: 63760325}
   splat: {fileID: 8300000, guid: 939a29ce9e711e042990cebd0aef71de, type: 3}
 --- !u!82 &63760325
@@ -1709,12 +1711,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 441087509}
+    - targetCorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1533524921}
     - targetCorrespondingSourceObject: {fileID: 1670256624, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 441087513}
     - targetCorrespondingSourceObject: {fileID: 1670256624, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 441087512}
+    - targetCorrespondingSourceObject: {fileID: 1670256624, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 441087519}
   m_SourcePrefab: {fileID: 100100000, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
 --- !u!4 &441087507 stripped
 Transform:
@@ -2047,6 +2055,28 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_PhysicsTriggerInteraction: 1
+--- !u!114 &441087519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441087511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a13474bc0b2584f983084fcc1d4f34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catchRadius: 0.3
+  catchLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  handNode: 5
+  directInteractor: {fileID: 441087513}
+  catchAttachPoint: {fileID: 0}
+  onlyCatchThrownIngredients: 1
+  audioSource: {fileID: 0}
+  splat: {fileID: 0}
 --- !u!1 &484043143
 GameObject:
   m_ObjectHideFlags: 0
@@ -3649,7 +3679,7 @@ MonoBehaviour:
   m_SnapToColliderVolume: 1
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
-  m_MovementType: 0
+  m_MovementType: 1
   m_VelocityDamping: 1
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
@@ -3690,7 +3720,7 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
-  m_FarAttachMode: 0
+  m_FarAttachMode: 1
 --- !u!1 &978392937
 GameObject:
   m_ObjectHideFlags: 0
@@ -6276,6 +6306,28 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499574483}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1533524921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441087508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a13474bc0b2584f983084fcc1d4f34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catchRadius: 0.3
+  catchLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  handNode: 4
+  directInteractor: {fileID: 441087510}
+  catchAttachPoint: {fileID: 0}
+  onlyCatchThrownIngredients: 1
+  audioSource: {fileID: 0}
+  splat: {fileID: 0}
 --- !u!1 &1540276007
 GameObject:
   m_ObjectHideFlags: 0
@@ -6637,8 +6689,16 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 2818213805976135266, guid: 9e2d9c128355ba94cad9078b566ac336, type: 3}
+      propertyPath: m_MovementType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818213805976135266, guid: 9e2d9c128355ba94cad9078b566ac336, type: 3}
+      propertyPath: m_FarAttachMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818213805976135266, guid: 9e2d9c128355ba94cad9078b566ac336, type: 3}
       propertyPath: m_UseDynamicAttach
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
