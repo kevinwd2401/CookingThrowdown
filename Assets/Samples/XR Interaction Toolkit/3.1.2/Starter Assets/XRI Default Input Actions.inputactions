@@ -1046,6 +1046,17 @@
                 },
                 {
                     "name": "",
+                    "id": "5a19e1e2-fe67-44ad-bcff-413ae18058cd",
+                    "path": "<XRController>{LeftHand}/{TriggerButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "49a23327-a116-48c0-8af9-0d2c50c15a88",
                     "path": "<XRController>{LeftHand}/{Grip}",
                     "interactions": "",
@@ -1092,6 +1103,17 @@
                     "name": "",
                     "id": "a8d99ae3-e736-4370-ad5e-9fa45cb7a1be",
                     "path": "<HoloLensHand>{LeftHand}/squeeze",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Value",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "24ac1a4e-2a03-4fe6-84fa-56fe95a9f353",
+                    "path": "<XRController>{LeftHand}/{TriggerCurl}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -2139,6 +2161,17 @@
                 },
                 {
                     "name": "",
+                    "id": "65951d00-9611-48ab-9699-e6cbf07fb019",
+                    "path": "<XRController>{RightHand}/{TriggerButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "dd433817-216c-46b9-8dd3-f3a4ea1767b9",
                     "path": "<XRController>{RightHand}/{Grip}",
                     "interactions": "",
@@ -2185,6 +2218,17 @@
                     "name": "",
                     "id": "e890a130-d436-4b52-a092-bff81d18bfb7",
                     "path": "<HoloLensHand>{RightHand}/squeeze",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select Value",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "514bb220-110e-4571-a4c9-223ec950f2e7",
+                    "path": "<XRController>{RightHand}/{Trigger}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
