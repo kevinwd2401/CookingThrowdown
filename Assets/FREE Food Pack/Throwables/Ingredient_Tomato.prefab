@@ -98,7 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crossSectionMaterial: {fileID: 2100000, guid: 0fb85a69726c0c64aa06ed284ba06648, type: 2}
   maxSliceCount: 15
-  pieceForce: 0.05
+  fallbackPieceMass: 0.2
 --- !u!1 &5913559217363305615
 GameObject:
   m_ObjectHideFlags: 0
@@ -5087,6 +5087,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: dd4330fb196ead84ea9d14e6bbbe8ed5, type: 2}
+    - target: {fileID: 7570689256928987033, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
+      propertyPath: m_Mass
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 7772165776906582467, guid: a4fd189a44e3d7f42b871cfec59b6038, type: 3}
       propertyPath: m_Mesh
       value: 
