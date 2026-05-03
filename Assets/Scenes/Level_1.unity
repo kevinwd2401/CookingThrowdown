@@ -522,6 +522,16 @@ MonoBehaviour:
   directInteractor: {fileID: 0}
   catchAttachPoint: {fileID: 0}
   onlyCatchThrownIngredients: 1
+  shootSpeed: 8
+  straightFlightTime: 1.2
+  aimDistance: 8
+  aimStartOffset: 0.25
+  aimHitLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  aimSource: {fileID: 0}
+  aimLine: {fileID: 0}
+  aimReticle: {fileID: 0}
   audioSource: {fileID: 63760325}
   splat: {fileID: 8300000, guid: 939a29ce9e711e042990cebd0aef71de, type: 3}
 --- !u!82 &63760325
@@ -2567,6 +2577,16 @@ MonoBehaviour:
   directInteractor: {fileID: 441087513}
   catchAttachPoint: {fileID: 0}
   onlyCatchThrownIngredients: 1
+  shootSpeed: 20
+  straightFlightTime: 1.2
+  aimDistance: 8
+  aimStartOffset: 0.25
+  aimHitLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  aimSource: {fileID: 441087524}
+  aimLine: {fileID: 0}
+  aimReticle: {fileID: 0}
   audioSource: {fileID: 0}
   splat: {fileID: 0}
 --- !u!4 &441087524 stripped
@@ -7491,6 +7511,16 @@ MonoBehaviour:
   directInteractor: {fileID: 441087510}
   catchAttachPoint: {fileID: 0}
   onlyCatchThrownIngredients: 1
+  shootSpeed: 20
+  straightFlightTime: 1.2
+  aimDistance: 8
+  aimStartOffset: 0.25
+  aimHitLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  aimSource: {fileID: 1533524926}
+  aimLine: {fileID: 0}
+  aimReticle: {fileID: 0}
   audioSource: {fileID: 0}
   splat: {fileID: 0}
 --- !u!4 &1533524926 stripped
