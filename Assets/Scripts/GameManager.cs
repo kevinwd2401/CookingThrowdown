@@ -5,6 +5,7 @@ using System.Net.NetworkInformation;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -81,7 +82,7 @@ public class GameManager : MonoBehaviour
 
     void Update() {
         // switch the endUI
-        if (Input.GetKeyDown(KeyCode.U)) {
+        if (Keyboard.current.uKey.wasPressedThisFrame) {
             endUI = !endUI;
             Debug.Log("U was pressed");
         }
@@ -149,6 +150,7 @@ public class GameManager : MonoBehaviour
         audioSource.PlayOneShot(loseAudio, 1.0f);
         NPCsLeave();
         Debug.Log("Game Lost!");
+        StartCoroutine(RestartLevelDelay());
     }
 
     // new win/lose game with new ui
@@ -265,6 +267,11 @@ public class GameManager : MonoBehaviour
         LoadNextLevel();
     }
 
+    IEnumerator RestartLevelDelay() {
+        yield return new WaitForSeconds(3f);
+        RestartLevel();
+    }
+
     public void LoadNextLevel() {
         currentLevelIndex++;
         if (currentLevelIndex < levels.Count) {
@@ -275,6 +282,14 @@ public class GameManager : MonoBehaviour
             endGameText.text = "Completed all levels!";
             Debug.Log("Completed all levels!");
             currentLevelIndex = 0;
+        }
+    }
+
+    public void RestartLevel() {
+        if (currentLevelIndex < levels.Count) {
+            // Reloads the active scene
+            Time.timeScale = 0.75f;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }
