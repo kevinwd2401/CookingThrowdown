@@ -93,9 +93,14 @@ public class Hater : MonoBehaviour
                 }
                 else if (state == MoveState.MoveStage)
                 {
-                    state = MoveState.Stay;
-                    anim.SetBool("Walking", false);
-                    thrower.SetThrow(true);
+                    if (GameManager.Instance.gameEnded) {
+                        state = MoveState.MoveExit;
+                        destination = manager.entrancePoints[spawnIndex].position;
+                    } else {
+                        state = MoveState.Stay;
+                        anim.SetBool("Walking", false);
+                        thrower.SetThrow(true);
+                    }
                 }
                 else if (state == MoveState.MoveExit)
                 {
