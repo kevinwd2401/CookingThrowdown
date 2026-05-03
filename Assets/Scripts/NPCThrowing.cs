@@ -12,6 +12,7 @@ public class NPCThrowing : MonoBehaviour
     [SerializeField] Transform handTransform;
     [SerializeField] SkinnedMeshRenderer smr;
     public Material[] altMats;
+    [SerializeField] MeshRenderer faceRenderer;
 
     AudioSource audioSource;
     bool canThrow, rage;
@@ -72,6 +73,10 @@ public class NPCThrowing : MonoBehaviour
                 mats = smr.materials;
                 mats[1] = altMats[0];
                 smr.materials = mats;
+                MaterialPropertyBlock mpbface = new MaterialPropertyBlock();
+                faceRenderer.GetPropertyBlock(mpbface);
+                mpbface.SetFloat("_Angry", 1f);
+                faceRenderer.SetPropertyBlock(mpbface);
                 yield return new WaitForSeconds(1f);
 
                 // play audio
@@ -104,6 +109,11 @@ public class NPCThrowing : MonoBehaviour
                     mats = smr.materials;
                     mats[1] = altMats[1];
                     smr.materials = mats;
+
+                    mpbface = new MaterialPropertyBlock();
+                    faceRenderer.GetPropertyBlock(mpbface);
+                    mpbface.SetFloat("_Angry", 0f);
+                    faceRenderer.SetPropertyBlock(mpbface);
                 }
             }
 
