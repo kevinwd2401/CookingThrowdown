@@ -148,9 +148,9 @@ public class GameManager : MonoBehaviour
         if (gameOver) return;
         gameOver = true;
         gameEnded = true;
+        NPCsClap();
         endGameText.text = "You win!!";
         audioSource.PlayOneShot(winAudio, 1.0f);
-        NPCsLeave();
         Debug.Log("Game Won!");
         StartCoroutine(NextLevelDelay());
     }
@@ -169,8 +169,9 @@ public class GameManager : MonoBehaviour
     public void AltWinGame() {
         if (gameOver) return;
         gameOver = true;
+        gameEnded = true;
+        NPCsClap();
         audioSource.PlayOneShot(winAudio, 1.0f);
-        NPCsLeave();
 
         // calculate scores
         int timeScore = CalculateTimeScore();
@@ -202,6 +203,7 @@ public class GameManager : MonoBehaviour
     public void AltLoseGame() {
         if (gameOver) return;
         gameOver = true;
+        gameEnded = true;
         audioSource.PlayOneShot(loseAudio, 1.0f);
         NPCsLeave();
 
@@ -269,6 +271,17 @@ public class GameManager : MonoBehaviour
                 Hater h = t.gameObject.GetComponent<Hater>();
                 if (h != null) {
                     h.Stun(0);
+                }
+            }
+        }
+    }
+
+    private void NPCsClap() {
+        foreach (Transform t in npcTransforms) {
+            if (t != null) {
+                Hater h = t.gameObject.GetComponent<Hater>();
+                if (h != null) {
+                    h.Clap();
                 }
             }
         }

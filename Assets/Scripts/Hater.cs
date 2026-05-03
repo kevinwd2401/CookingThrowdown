@@ -50,6 +50,11 @@ public class Hater : MonoBehaviour
             Leave(damage);
         }
     }
+    public void Clap() {
+        thrower.SetThrow(false);
+        state = MoveState.Clapping;
+        anim.SetTrigger("Clap");
+    }
 
     public void SetRage(bool active) {
         thrower.SetRage(active);
@@ -57,6 +62,7 @@ public class Hater : MonoBehaviour
 
     private void Leave(int damage)
     {
+        if (state == MoveState.Clapping) return;
         thrower.SetThrow(false);
         if (damage == 1 & Random.value > 0.7f) {
             StartCoroutine(DeathCor());
@@ -81,6 +87,7 @@ public class Hater : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
+            if (state == MoveState.Clapping) yield break;
 
             if (state == MoveState.Stay) continue;
 
@@ -129,5 +136,6 @@ public enum MoveState
     MoveStage,
     Stay,
     MoveExit,
-    MoveSpawn
+    MoveSpawn,
+    Clapping
 }
