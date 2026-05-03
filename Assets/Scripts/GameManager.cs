@@ -34,6 +34,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] int timer;
     private int reputation;
 
+    [Header("End Game UI")]
+    public GameObject endGamePanel;
+    public GameObject winPanel;
+    public GameObject losePanel;
+    public TextMeshProUGUI titleText;
+    public TextMeshProUGUI breakdownText;
+
+    public static bool endUI = false; // true is default old, false is new
+
     public int Reputation {get {return reputation;}
         set {
             if (gameOver) return;
@@ -42,8 +51,13 @@ public class GameManager : MonoBehaviour
             if (reputation <= 0) {
                 reputation = 0;
                 endGameText.text = "Reputation: Rock bottom...";
-                LoseGame();
-                //end game
+                breakdownText.text = "You got hit too many times. Your reputation is in shambles, no one will hire you again...";
+                
+                if (GameManager.endUI) {
+                    LoseGame();
+                } else {
+                    AltLoseGame();
+                }
             }
         }}
     bool gameOver;
@@ -53,6 +67,8 @@ public class GameManager : MonoBehaviour
         reputation = 100;
         Time.timeScale = 0.75f;
         gameOver = false;
+
+        endGamePanel.SetActive(false);
     }
 
     void Start()
@@ -61,6 +77,14 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(timerCor());
         audioSource = GetComponent<AudioSource>();
+    }
+
+    void Update() {
+        // switch the endUI
+        if (Input.GetKeyDown(KeyCode.U)) {
+            endUI = !endUI;
+            Debug.Log("U was pressed");
+        }
     }
 
     private IEnumerator timerCor() {
@@ -73,7 +97,14 @@ public class GameManager : MonoBehaviour
             timerText.text = $"Time Left: {minutes:D2}:{remainingSeconds:D2}";
             if (timer <= 0) {
                 endGameText.text = "You ran out of time...";
-                LoseGame();
+                breakdownText.text = "You were too slow. Your audience got so bored that they left...";
+
+                // TODO: choose one
+                if (GameManager.endUI) {
+                    LoseGame();
+                } else {
+                    AltLoseGame();
+                } 
             }
         }
     }
@@ -109,7 +140,6 @@ public class GameManager : MonoBehaviour
         audioSource.PlayOneShot(winAudio, 1.0f);
         NPCsLeave();
         Debug.Log("Game Won!");
-
         StartCoroutine(NextLevelDelay());
     }
 
@@ -118,31 +148,101 @@ public class GameManager : MonoBehaviour
         gameOver = true;
         audioSource.PlayOneShot(loseAudio, 1.0f);
         NPCsLeave();
-        Debug.Log("Game Lost! You died/timed out!");
+        Debug.Log("Game Lost!");
     }
 
-    public int CalculateScore() {
-        float score = 0; // max 100
+    // new win/lose game with new ui
+    public void AltWinGame() {
+        if (gameOver) return;
+        gameOver = true;
+        audioSource.PlayOneShot(winAudio, 1.0f);
+        NPCsLeave();
 
+        // calculate scores
+        int timeScore = CalculateTimeScore();
+        int repScore = CalculateReputationScore();
+        int accuracyScore = CalculateCookingAccuracy();
+        int total = timeScore + repScore + accuracyScore;
+
+        // format text
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine($"Time Bonus: +{timeScore}");
+        sb.AppendLine($"Reputation: +{repScore}");
+        sb.AppendLine($"Cooking Quality: +{accuracyScore}");
+        sb.AppendLine($"TOTAL: {total}");
+
+        breakdownText.text = sb.ToString();
+
+        // set ui text
+        endGameText.text = "You win!!";
+        titleText.text = "You win!!";
+
+        // set ui panels
+        endGamePanel.SetActive(true);
+        losePanel.SetActive(false);
+        winPanel.SetActive(true);
+
+        Debug.Log("Game Won!");
+    }
+
+    public void AltLoseGame() {
+        if (gameOver) return;
+        gameOver = true;
+        audioSource.PlayOneShot(loseAudio, 1.0f);
+        NPCsLeave();
+
+        // set ui text
+        endGameText.text = "You Lose :(";
+        titleText.text = "You Lose :(";
+
+        // set ui panels
+        endGamePanel.SetActive(true);
+        losePanel.SetActive(true);
+        winPanel.SetActive(false);
+
+        Debug.Log("Game Lost!");
+    }
+
+    public int CalculateTimeScore() {
+        float score = 0;
         float maxTime = (float)levels[currentLevelIndex].timeLimit;
-        float maxRep = (float)levels[currentLevelIndex].startingReputation;
 
-        // 50 (half) the points are from time + reputation
-        // time bonus
-        if (timer >= maxTime * 0.75f) score += 25;   
+        // 25 total points from time
+        if (timer >= maxTime * 0.75f) score += 25;
         else if (timer >= maxTime * 0.5f) score += 15;
         else if (timer > 0) score += 5;
 
-        // reputation bonus
+        return Mathf.RoundToInt(score);
+    }
+
+    public int CalculateReputationScore() {
+        float score = 0;
+        float maxRep = (float)levels[currentLevelIndex].startingReputation;
+
+        // 25 total points from reputation
         if (reputation >= maxRep * 0.8f) score += 25;
         else if (reputation >= maxRep * 0.4f) score += 15;
         else if (reputation > 0) score += 5;
 
-        // TODO: ADD THIS WHERE PLAYER CAN SEE
-        // other 50 points from cooking accuracy 
-        // score += CalculateCookingAccuracy();
-
         return Mathf.RoundToInt(score);
+    }
+
+    public int CalculateCookingAccuracy() {
+        int accuracyScore = 50;
+        List<Ingredient> plateItems = FindObjectOfType<Plate>().ingredientsOnPlate;
+
+        foreach (Ingredient item in plateItems) {
+            // penalty for burnt
+            if (item.cookStatus == Ingredient.CookState.Burnt) {
+                accuracyScore -= 10;
+            }
+            // penalty for rotten
+            if (item.isRotten == true) {
+                accuracyScore -= 20;
+            }
+        }
+
+        return Mathf.Clamp(accuracyScore, 0, 50); // between 0 and 50
     }
 
     public void SetNPCSpawnRate(float spawnRate) {
