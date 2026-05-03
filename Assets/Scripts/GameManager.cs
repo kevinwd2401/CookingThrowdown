@@ -281,7 +281,6 @@ public class GameManager : MonoBehaviour
         } else {
             endGameText.text = "Completed all levels!";
             Debug.Log("Completed all levels!");
-            currentLevelIndex = 0;
         }
     }
 
