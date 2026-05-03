@@ -7,6 +7,7 @@ public class Hater : MonoBehaviour
     public bool hostile = true;
     public int spawnIndex;
     public NPCManager manager;
+    public Animator anim;
     private MoveState state;
     private Vector3 destination;
 
@@ -35,7 +36,7 @@ public class Hater : MonoBehaviour
             );
         }
 
-        transform.position += Time.deltaTime * 4 * transform.forward;
+        transform.position += Time.deltaTime * 3.2f * transform.forward;
     }
 
     public void Stun()
@@ -57,8 +58,18 @@ public class Hater : MonoBehaviour
     private void Leave()
     {
         thrower.SetThrow(false);
-        state = MoveState.MoveExit;
-        destination = manager.entrancePoints[spawnIndex].position;
+        if (Random.value > 0.7f) {
+            StartCoroutine(DeathCor());
+        } else {
+            state = MoveState.MoveExit;
+            destination = manager.entrancePoints[spawnIndex].position;
+        }  
+    }
+
+    private IEnumerator DeathCor() {
+        anim.SetTrigger("Die");
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
     }
 
     private IEnumerator StateUpdateCor()
@@ -83,10 +94,12 @@ public class Hater : MonoBehaviour
                 else if (state == MoveState.MoveStage)
                 {
                     state = MoveState.Stay;
+                    anim.SetBool("Walking", false);
                     thrower.SetThrow(true);
                 }
                 else if (state == MoveState.MoveExit)
                 {
+                    anim.SetBool("Walking", true);
                     state = MoveState.MoveSpawn;
                     destination = manager.spawnPoints[spawnIndex].position;
                 }

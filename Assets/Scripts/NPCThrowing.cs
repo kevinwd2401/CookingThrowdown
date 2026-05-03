@@ -4,20 +4,30 @@ using UnityEngine;
 
 public class NPCThrowing : MonoBehaviour
 {
-    [SerializeField] Transform spawnPt;
-    public Material[] tempMats;
+    //public Material[] tempMats;
     public AudioClip[] audioList;
     public ParticleSystem ps;
+    public Animator anim;
     public Hater hater;
-    MeshRenderer mr;
+    [SerializeField] Transform handTransform;
+    [SerializeField] SkinnedMeshRenderer smr;
+    public Material[] altMats;
+
     AudioSource audioSource;
     bool canThrow, rage;
+    Material[] mats;
+
     void Start()
     {
         StartCoroutine(ThrowCor());
-        mr = GetComponent<MeshRenderer>();
+
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        smr.GetPropertyBlock(mpb, 0);
+        mpb.SetColor("_BaseColor", Random.ColorHSV());
+        smr.SetPropertyBlock(mpb, 0);
+
         audioSource = GetComponent<AudioSource>();
-        tempMats[0] = mr.material;
+        //tempMats[0] = mr.material;
     }
     void Update() {
 
@@ -52,13 +62,17 @@ public class NPCThrowing : MonoBehaviour
             if (canThrow)
             {
                 if (rage) {
-                    mr.material = tempMats[1];
+                    //mr.material = tempMats[1];
                     if (ps != null && !ps.isPlaying) {
                         ps.Play();
                     }
                 } else {
-                    mr.material = tempMats[2];
+                    //mr.material = tempMats[2];
                 }
+                mats = smr.materials;
+                mats[1] = altMats[0];
+                smr.materials = mats;
+                yield return new WaitForSeconds(1f);
 
                 // play audio
                 int clip = Random.Range(0, audioList.Length);
@@ -70,24 +84,30 @@ public class NPCThrowing : MonoBehaviour
                 }
 
                 audioSource.Play();
+                yield return new WaitForSeconds(0.4f);
+
+                anim.SetTrigger("Throw");
 
                 GameObject proj = SpawnThrowable();
 
 
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.8f);
 
                 Vector3 target = GameManager.Instance.playerTrans.position + new Vector3(2f * Random.value - 1f, 1.0f, 0.1f * Random.value);
 
                 if (proj != null)
                     ThrowAtPlayer(proj, target);
 
-                yield return new WaitForSeconds(0.2f);
 
-                if (!rage) 
-                    mr.material = tempMats[0];
+                if (!rage) {
+                    yield return new WaitForSeconds(0.4f);
+                    mats = smr.materials;
+                    mats[1] = altMats[1];
+                    smr.materials = mats;
+                }
             }
 
-            yield return new WaitForSeconds(rage ? (2f) : (16f + 16f * Random.value));
+            yield return new WaitForSeconds(rage ? (2f) : (16f + 20f * Random.value));
         }
     }
 
@@ -105,7 +125,7 @@ public class NPCThrowing : MonoBehaviour
             Random.Range(0, GameManager.Instance.throwingList.Length)
         ];
 
-        GameObject proj = Instantiate(prefab, spawnPt.position, Quaternion.identity);
+        GameObject proj = Instantiate(prefab, handTransform.position, Quaternion.identity);
         Vector3 randomDir = Quaternion.AngleAxis(
             Random.Range(-20, 20),
             Random.onUnitSphere
@@ -117,13 +137,14 @@ public class NPCThrowing : MonoBehaviour
         rb.useGravity = false;
 
         proj.GetComponent<Throwable>().InitializeThrown();
+        proj.transform.SetParent(handTransform);
 
         return proj;
     }
 
     private void ThrowAtPlayer(GameObject proj, Vector3 target, float angleDeg = 55f)
     {
-        Vector3 start = spawnPt.position;
+        Vector3 start = proj.transform.position;
 
         Vector3 toTarget = target - start;
         Vector3 toTargetXZ = new Vector3(toTarget.x, 0f, toTarget.z);
@@ -151,6 +172,7 @@ public class NPCThrowing : MonoBehaviour
         rb.useGravity = true;
 
         proj.GetComponent<Throwable>().InitializeThrown();
+        proj.transform.parent = null;
 
         Vector3 dir = toTargetXZ.normalized;
 
@@ -164,7 +186,9 @@ public class NPCThrowing : MonoBehaviour
     public void SetThrow(bool throwing) {
         canThrow = throwing;
         if (!throwing) {
-            mr.material = tempMats[0];
+            mats = smr.materials;
+            mats[1] = altMats[1];
+            smr.materials = mats;
             SetRage(false);
         }
     }
