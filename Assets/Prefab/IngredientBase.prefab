@@ -101,7 +101,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5803652243982802983}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 250
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -119,7 +119,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &7850410805369071805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,6 +135,8 @@ MonoBehaviour:
   ps: {fileID: 0}
   hurtsPlayer: 0
   maxCatchDistance: 3
+  manualThrowMultiplier: 1.6
+  maxManualThrowSpeed: 18
 --- !u!114 &2917720653508733792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +283,7 @@ MonoBehaviour:
   cookProgress: 0
   cookSpeed: 0.1
   isRotten: 0
+  isSliced: 0
   cookStatus: 0
   ingredient: 0
   cookedMat: {fileID: 2100000, guid: 02a1725d5ba00b94089f0579cc5588ab, type: 2}
@@ -503,7 +506,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crossSectionMaterial: {fileID: 2100000, guid: 65d930a4c443d2d479ae9f3d2089a190, type: 2}
   maxSliceCount: 15
-  pieceForce: 0.05
+  fallbackPieceMass: 0.2
 --- !u!1 &8571137804111500634
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,8 @@ public class Ingredient : MonoBehaviour
     public enum IngredientType { Steak, Bread, Tomato, Cheese, Patty}
     public float cookProgress = 0f; 
     public float cookSpeed = 0.1f; 
-    public bool isRotten = false; 
+    public bool isRotten = false;
+    public bool isSliced = false;
     public CookState cookStatus = CookState.Raw; 
     public IngredientType ingredient = IngredientType.Steak;
 
