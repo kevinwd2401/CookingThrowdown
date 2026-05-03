@@ -4086,6 +4086,7 @@ MonoBehaviour:
   audioSource: {fileID: 867739589}
   winAudio: {fileID: 8300000, guid: 4bb21448bb21f1c4aa913df06ebd6b73, type: 3}
   loseAudio: {fileID: 8300000, guid: d59730bc63a5ec44eae263fcf0dbff3b, type: 3}
+  clapAudio: {fileID: 8300000, guid: bc0e0ed53c0f9b74d84852c2a90c1036, type: 3}
   timer: 360
   endGamePanel: {fileID: 648515042}
   winPanel: {fileID: 1250642762}

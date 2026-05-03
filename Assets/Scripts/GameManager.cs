@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip winAudio;
     public AudioClip loseAudio;
+    public AudioClip clapAudio;
 
     [SerializeField] int timer;
     private int reputation;
@@ -149,6 +150,7 @@ public class GameManager : MonoBehaviour
         gameOver = true;
         gameEnded = true;
         NPCsClap();
+        audioSource.PlayOneShot(clapAudio, 0.8f);
         endGameText.text = "You win!!";
         audioSource.PlayOneShot(winAudio, 1.0f);
         Debug.Log("Game Won!");
@@ -171,6 +173,7 @@ public class GameManager : MonoBehaviour
         gameOver = true;
         gameEnded = true;
         NPCsClap();
+        audioSource.PlayOneShot(clapAudio, 0.8f);
         audioSource.PlayOneShot(winAudio, 1.0f);
 
         // calculate scores
