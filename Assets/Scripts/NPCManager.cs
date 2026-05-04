@@ -18,7 +18,7 @@ public class NPCManager : MonoBehaviour
     void Start()
     {
         gm = GetComponent<GameManager>();
-        counter = 8;
+        counter = 5;
         StartCoroutine(SpawnNPCs());
     }
 
@@ -34,9 +34,9 @@ public class NPCManager : MonoBehaviour
                 npc.GetComponent<Hater>().manager = this;
                 GameManager.Instance.npcTransforms.Add(npc.transform);
             }
-            yield return new WaitForSecondsRealtime((Random.value + (counter/1.5f) + 8) / SpawnRate);
+            yield return new WaitForSecondsRealtime((2 * Random.value + counter + 8) / SpawnRate);
 
-            if (GameManager.Instance.npcTransforms.Count > 3 && Random.value > 0.4f + counter * 0.05f) {
+            if (GameManager.Instance.npcTransforms.Count > 3 && Random.value > 0.5f + counter * 0.05f) {
                 var elements = GameManager.Instance.npcTransforms.ToArray();
                 if (elements != null) {
                     chosenOne = elements[Random.Range(0, elements.Length)].gameObject.GetComponent<Hater>();

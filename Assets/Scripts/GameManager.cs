@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip winAudio;
     public AudioClip loseAudio;
+    public AudioClip clapAudio;
 
     [SerializeField] int timer;
     private int reputation;
@@ -44,11 +45,20 @@ public class GameManager : MonoBehaviour
 
     public static bool endUI = false; // true is default old, false is new
 
+    private Color normalColor = new Color(0, 1, 0.007f);
+    private Color decreaseColor = Color.red;
+    public GameObject sliderFill;
+    private Coroutine sliderRoutine;
+
     public int Reputation {get {return reputation;}
         set {
             if (gameOver) return;
             reputation = value;
-            repSlider.value = reputation;
+            if (sliderRoutine != null)
+            {
+                StopCoroutine(sliderRoutine);
+            }
+            sliderRoutine = StartCoroutine(LerpSlider(reputation));
             if (reputation <= 0) {
                 reputation = 0;
                 endGameText.text = "Reputation: Rock bottom...";
@@ -101,6 +111,7 @@ public class GameManager : MonoBehaviour
                 breakdownText.text = "You were too slow. Your audience got so bored that they left...";
 
                 // TODO: choose one
+                gameEnded = true;
                 if (GameManager.endUI) {
                     LoseGame();
                 } else {
@@ -137,9 +148,11 @@ public class GameManager : MonoBehaviour
     public void WinGame() {
         if (gameOver) return;
         gameOver = true;
+        gameEnded = true;
+        NPCsClap();
+        audioSource.PlayOneShot(clapAudio, 0.8f);
         endGameText.text = "You win!!";
         audioSource.PlayOneShot(winAudio, 1.0f);
-        NPCsLeave();
         Debug.Log("Game Won!");
         StartCoroutine(NextLevelDelay());
     }
@@ -147,6 +160,7 @@ public class GameManager : MonoBehaviour
     public void LoseGame() {
         if (gameOver) return;
         gameOver = true;
+        gameEnded = true;
         audioSource.PlayOneShot(loseAudio, 1.0f);
         NPCsLeave();
         Debug.Log("Game Lost!");
@@ -157,8 +171,10 @@ public class GameManager : MonoBehaviour
     public void AltWinGame() {
         if (gameOver) return;
         gameOver = true;
+        gameEnded = true;
+        NPCsClap();
+        audioSource.PlayOneShot(clapAudio, 0.8f);
         audioSource.PlayOneShot(winAudio, 1.0f);
-        NPCsLeave();
 
         // calculate scores
         int timeScore = CalculateTimeScore();
@@ -190,6 +206,7 @@ public class GameManager : MonoBehaviour
     public void AltLoseGame() {
         if (gameOver) return;
         gameOver = true;
+        gameEnded = true;
         audioSource.PlayOneShot(loseAudio, 1.0f);
         NPCsLeave();
 
@@ -256,7 +273,18 @@ public class GameManager : MonoBehaviour
             if (t != null) {
                 Hater h = t.gameObject.GetComponent<Hater>();
                 if (h != null) {
-                    h.Stun();
+                    h.Stun(0);
+                }
+            }
+        }
+    }
+
+    private void NPCsClap() {
+        foreach (Transform t in npcTransforms) {
+            if (t != null) {
+                Hater h = t.gameObject.GetComponent<Hater>();
+                if (h != null) {
+                    h.Clap();
                 }
             }
         }
@@ -290,5 +318,32 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0.75f;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+    }
+
+    private IEnumerator LerpSlider(float targetValue)
+    {
+        float startValue = repSlider.value;
+        float duration = 0.5f;
+        float time = 0f;
+
+        // Change color to red while decreasing
+        UnityEngine.UI.Image fill = sliderFill.GetComponent<UnityEngine.UI.Image>();
+        fill.color = decreaseColor;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+
+            repSlider.value = Mathf.Lerp(startValue, targetValue, t);
+            yield return null;
+        }
+
+        repSlider.value = targetValue;
+
+        // Revert color
+        fill.color = normalColor;
+
+        sliderRoutine = null;
     }
 }

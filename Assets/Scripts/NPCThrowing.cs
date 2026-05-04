@@ -58,7 +58,7 @@ public class NPCThrowing : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
 
-        while (true)
+        while (!GameManager.Instance.gameEnded)
         {
             if (canThrow)
             {

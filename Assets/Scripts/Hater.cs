@@ -39,7 +39,7 @@ public class Hater : MonoBehaviour
         transform.position += Time.deltaTime * 3.2f * transform.forward;
     }
 
-    public void Stun()
+    public void Stun(int damage = 1)
     {
         if (hitsUntilLeave <= 0) return;
 
@@ -47,20 +47,27 @@ public class Hater : MonoBehaviour
 
         if (hitsUntilLeave == 0)
         {
-            Leave();
+            Leave(damage);
         }
+    }
+    public void Clap() {
+        thrower.SetThrow(false);
+        state = MoveState.Clapping;
+        anim.SetTrigger("Clap");
     }
 
     public void SetRage(bool active) {
         thrower.SetRage(active);
     }
 
-    private void Leave()
+    private void Leave(int damage)
     {
+        if (state == MoveState.Clapping) return;
         thrower.SetThrow(false);
-        if (Random.value > 0.7f) {
+        if (damage == 1 & Random.value > 0.7f) {
             StartCoroutine(DeathCor());
         } else {
+            anim.SetBool("Walking", true);
             state = MoveState.MoveExit;
             destination = manager.entrancePoints[spawnIndex].position;
         }  
@@ -69,7 +76,7 @@ public class Hater : MonoBehaviour
     private IEnumerator DeathCor() {
         anim.SetTrigger("Die");
         yield return new WaitForSeconds(2);
-        Destroy(gameObject);
+        RemoveNPC();
     }
 
     private IEnumerator StateUpdateCor()
@@ -80,6 +87,7 @@ public class Hater : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
+            if (state == MoveState.Clapping) yield break;
 
             if (state == MoveState.Stay) continue;
 
@@ -93,9 +101,14 @@ public class Hater : MonoBehaviour
                 }
                 else if (state == MoveState.MoveStage)
                 {
-                    state = MoveState.Stay;
-                    anim.SetBool("Walking", false);
-                    thrower.SetThrow(true);
+                    if (GameManager.Instance.gameEnded) {
+                        state = MoveState.MoveExit;
+                        destination = manager.entrancePoints[spawnIndex].position;
+                    } else {
+                        state = MoveState.Stay;
+                        anim.SetBool("Walking", false);
+                        thrower.SetThrow(true);
+                    }
                 }
                 else if (state == MoveState.MoveExit)
                 {
@@ -105,10 +118,15 @@ public class Hater : MonoBehaviour
                 }
                 else if (state == MoveState.MoveSpawn)
                 {
-                    Destroy(gameObject);
+                    RemoveNPC();
                 }
             }
         }
+    }
+
+    private void RemoveNPC() {
+        GameManager.Instance.npcTransforms.Remove(transform);
+        Destroy(gameObject);
     }
 }
 
@@ -118,5 +136,6 @@ public enum MoveState
     MoveStage,
     Stay,
     MoveExit,
-    MoveSpawn
+    MoveSpawn,
+    Clapping
 }

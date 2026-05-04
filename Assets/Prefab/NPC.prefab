@@ -433,6 +433,7 @@ MonoBehaviour:
   faceMats:
   - {fileID: 2100000, guid: 3a59bc3fc62fb20469e3ee8c50994d80, type: 2}
   - {fileID: 2100000, guid: 7276e7b67f3f80243918cf911028ae94, type: 2}
+  - {fileID: 2100000, guid: 72cec6fce9ad77249a565a8e79a91d60, type: 2}
 --- !u!1 &9097540607820465612
 GameObject:
   m_ObjectHideFlags: 0
