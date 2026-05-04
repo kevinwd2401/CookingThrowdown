@@ -2569,7 +2569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a13474bc0b2584f983084fcc1d4f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  catchRadius: 0.3
+  catchRadius: 0.4
   catchLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -2577,7 +2577,7 @@ MonoBehaviour:
   directInteractor: {fileID: 441087513}
   catchAttachPoint: {fileID: 0}
   onlyCatchThrownIngredients: 1
-  shootSpeed: 20
+  shootSpeed: 30
   straightFlightTime: 1.2
   aimDistance: 8
   aimStartOffset: 0.25
@@ -7503,7 +7503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92a13474bc0b2584f983084fcc1d4f34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  catchRadius: 0.3
+  catchRadius: 0.4
   catchLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -7511,7 +7511,7 @@ MonoBehaviour:
   directInteractor: {fileID: 441087510}
   catchAttachPoint: {fileID: 0}
   onlyCatchThrownIngredients: 1
-  shootSpeed: 20
+  shootSpeed: 30
   straightFlightTime: 1.2
   aimDistance: 8
   aimStartOffset: 0.25
