@@ -4,6 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Cooking/Level")]
 public class LevelData : ScriptableObject {
     public string levelName;
+    public int levelID;
 
     public Recipe recipe;
 

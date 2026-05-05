@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Level2_Burger
   m_EditorClassIdentifier: 
   levelName: Level 2
+  levelID: 2
   recipe: {fileID: 11400000, guid: f75724814ccb7ad4aafd45c045b2f21c, type: 2}
   timeLimit: 360
   spawnRate: 1.25

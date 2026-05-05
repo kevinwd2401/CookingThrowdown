@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Level1_Steak
   m_EditorClassIdentifier: 
   levelName: Level 1
+  levelID: 1
   recipe: {fileID: 11400000, guid: 38b4fce87319d0a48a24be77de8fbffb, type: 2}
   timeLimit: 360
   spawnRate: 0.8

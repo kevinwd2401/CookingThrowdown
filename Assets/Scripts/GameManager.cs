@@ -153,7 +153,8 @@ public class GameManager : MonoBehaviour
         audioSource.PlayOneShot(clapAudio, 0.8f);
         endGameText.text = "You win!!";
         audioSource.PlayOneShot(winAudio, 1.0f);
-        Debug.Log("Game Won!");
+        Debug.Log("Game Won! Just Beat " + levels[currentLevelIndex].levelName);
+        GlobalData.LevelsBeat = levels[currentLevelIndex].levelID;
         StartCoroutine(NextLevelDelay());
     }
 
@@ -200,7 +201,8 @@ public class GameManager : MonoBehaviour
         losePanel.SetActive(false);
         winPanel.SetActive(true);
 
-        Debug.Log("Game Won!");
+        Debug.Log("Game Won! Just Beat " + levels[currentLevelIndex].levelName);
+        GlobalData.LevelsBeat = levels[currentLevelIndex].levelID;
     }
 
     public void AltLoseGame() {
@@ -298,6 +300,14 @@ public class GameManager : MonoBehaviour
     IEnumerator RestartLevelDelay() {
         yield return new WaitForSeconds(3f);
         RestartLevel();
+    }
+
+    IEnumerator MainMenuDelay() {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("MainMenu");
+    }
+    public void LoadMainMenu() {
+        StartCoroutine(MainMenuDelay());
     }
 
     public void LoadNextLevel() {
