@@ -206,6 +206,7 @@ MonoBehaviour:
   audioList:
   - {fileID: 8300000, guid: ef54e2d286649f240b35ed7bf363f3fe, type: 3}
   - {fileID: 8300000, guid: acaafef270ecf914c94750960a247ac9, type: 3}
+  - {fileID: 8300000, guid: 262a4dde0135e8a4984c30f469b8d2a6, type: 3}
   ps: {fileID: 6913913350267671416}
   anim: {fileID: 2779802022715282051}
   hater: {fileID: 7096761631172190911}
@@ -388,7 +389,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7276e7b67f3f80243918cf911028ae94, type: 2}
+  - {fileID: 2100000, guid: e9e4661d4c117dd49b0deafe73ecce43, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -434,6 +435,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 3a59bc3fc62fb20469e3ee8c50994d80, type: 2}
   - {fileID: 2100000, guid: 7276e7b67f3f80243918cf911028ae94, type: 2}
   - {fileID: 2100000, guid: 72cec6fce9ad77249a565a8e79a91d60, type: 2}
+  - {fileID: 2100000, guid: e9e4661d4c117dd49b0deafe73ecce43, type: 2}
 --- !u!1 &9097540607820465612
 GameObject:
   m_ObjectHideFlags: 0
