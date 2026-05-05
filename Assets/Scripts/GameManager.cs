@@ -64,11 +64,7 @@ public class GameManager : MonoBehaviour
                 endGameText.text = "Reputation: Rock bottom...";
                 breakdownText.text = "You got hit too many times. Your reputation is in shambles, no one will hire you again...";
                 
-                if (GameManager.endUI) {
-                    LoseGame();
-                } else {
-                    AltLoseGame();
-                }
+                LoseGame();
             }
         }}
     bool gameOver;
@@ -90,14 +86,6 @@ public class GameManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    void Update() {
-        // switch the endUI
-        if (Keyboard.current.uKey.wasPressedThisFrame) {
-            endUI = !endUI;
-            Debug.Log("U was pressed");
-        }
-    }
-
     private IEnumerator timerCor() {
         while (!gameOver) {
             yield return new WaitForSecondsRealtime(1);
@@ -110,13 +98,8 @@ public class GameManager : MonoBehaviour
                 endGameText.text = "You ran out of time...";
                 breakdownText.text = "You were too slow. Your audience got so bored that they left...";
 
-                // TODO: choose one
                 gameEnded = true;
-                if (GameManager.endUI) {
-                    LoseGame();
-                } else {
-                    AltLoseGame();
-                } 
+                LoseGame();
             }
         }
     }
@@ -145,31 +128,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("Loaded" + level.levelName);
     }
 
-    public void WinGame() {
-        if (gameOver) return;
-        gameOver = true;
-        gameEnded = true;
-        NPCsClap();
-        audioSource.PlayOneShot(clapAudio, 0.8f);
-        endGameText.text = "You win!!";
-        audioSource.PlayOneShot(winAudio, 1.0f);
-        Debug.Log("Game Won! Just Beat " + levels[currentLevelIndex].levelName);
-        GlobalData.LevelsBeat = levels[currentLevelIndex].levelID;
-        StartCoroutine(NextLevelDelay());
-    }
-
-    public void LoseGame() {
-        if (gameOver) return;
-        gameOver = true;
-        gameEnded = true;
-        audioSource.PlayOneShot(loseAudio, 1.0f);
-        NPCsLeave();
-        Debug.Log("Game Lost!");
-        StartCoroutine(RestartLevelDelay());
-    }
-
     // new win/lose game with new ui
-    public void AltWinGame() {
+    public void WinGame() {
         if (gameOver) return;
         gameOver = true;
         gameEnded = true;
@@ -205,7 +165,7 @@ public class GameManager : MonoBehaviour
         GlobalData.LevelsBeat = levels[currentLevelIndex].levelID;
     }
 
-    public void AltLoseGame() {
+    public void LoseGame() {
         if (gameOver) return;
         gameOver = true;
         gameEnded = true;
@@ -292,16 +252,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator NextLevelDelay() {
-        yield return new WaitForSeconds(3f);
-        LoadNextLevel();
-    }
-
-    IEnumerator RestartLevelDelay() {
-        yield return new WaitForSeconds(3f);
-        RestartLevel();
-    }
-
     IEnumerator MainMenuDelay() {
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("MainMenu");
@@ -323,6 +273,15 @@ public class GameManager : MonoBehaviour
     }
 
     public void RestartLevel() {
+        if (currentLevelIndex < levels.Count) {
+            // Reloads the active scene
+            Time.timeScale = 0.75f;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    public void LoadLevel(int levelIndex) {
+        currentLevelIndex = levelIndex;
         if (currentLevelIndex < levels.Count) {
             // Reloads the active scene
             Time.timeScale = 0.75f;

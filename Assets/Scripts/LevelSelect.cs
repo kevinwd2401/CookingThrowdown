@@ -20,6 +20,7 @@ public class LevelSelect : MonoBehaviour
 
     public void OnStartButtonPressed() {
         //load level for the LevelData found in levelArray[levelIndex]
+        GameManager.Instance.LoadLevel(levelIndex);
     }
 
     public void OnNextPressed() {

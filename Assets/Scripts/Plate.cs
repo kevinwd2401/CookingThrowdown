@@ -57,11 +57,6 @@ public class Plate : MonoBehaviour
             }
         }
 
-        // TODO: delete this/change this
-        if (GameManager.endUI) {
-            GameManager.Instance.WinGame();
-        } else {
-            GameManager.Instance.AltWinGame();
-        }
+        GameManager.Instance.WinGame();
     }
 }
