@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     public bool gameEnded = false;
 
     public List<LevelData> levels;
-    public static int currentLevelIndex = 0;
 
     [SerializeField] private UnityEngine.UI.Slider repSlider;
     [SerializeField] private TextMeshProUGUI timerText;
@@ -80,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        LoadLevel(levels[currentLevelIndex]);
+        LoadLevel(levels[GlobalData.currentLevelIndex]);
 
         StartCoroutine(timerCor());
         audioSource = GetComponent<AudioSource>();
@@ -161,8 +160,8 @@ public class GameManager : MonoBehaviour
         losePanel.SetActive(false);
         winPanel.SetActive(true);
 
-        Debug.Log("Game Won! Just Beat " + levels[currentLevelIndex].levelName);
-        GlobalData.LevelsBeat = levels[currentLevelIndex].levelID;
+        Debug.Log("Game Won! Just Beat " + levels[GlobalData.currentLevelIndex].levelName);
+        GlobalData.LevelsBeat = levels[GlobalData.currentLevelIndex].levelID;
     }
 
     public void LoseGame() {
@@ -186,7 +185,7 @@ public class GameManager : MonoBehaviour
 
     public int CalculateTimeScore() {
         float score = 0;
-        float maxTime = (float)levels[currentLevelIndex].timeLimit;
+        float maxTime = (float)levels[GlobalData.currentLevelIndex].timeLimit;
 
         // 25 total points from time
         if (timer >= maxTime * 0.75f) score += 25;
@@ -198,7 +197,7 @@ public class GameManager : MonoBehaviour
 
     public int CalculateReputationScore() {
         float score = 0;
-        float maxRep = (float)levels[currentLevelIndex].startingReputation;
+        float maxRep = (float)levels[GlobalData.currentLevelIndex].startingReputation;
 
         // 25 total points from reputation
         if (reputation >= maxRep * 0.8f) score += 25;
@@ -261,8 +260,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void LoadNextLevel() {
-        currentLevelIndex++;
-        if (currentLevelIndex < levels.Count) {
+        GlobalData.currentLevelIndex++;
+        if (GlobalData.currentLevelIndex < levels.Count) {
             // Reloads the active scene
             Time.timeScale = 0.75f;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -273,16 +272,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void RestartLevel() {
-        if (currentLevelIndex < levels.Count) {
-            // Reloads the active scene
-            Time.timeScale = 0.75f;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-    }
-
-    public void LoadLevel(int levelIndex) {
-        currentLevelIndex = levelIndex;
-        if (currentLevelIndex < levels.Count) {
+        if (GlobalData.currentLevelIndex < levels.Count) {
             // Reloads the active scene
             Time.timeScale = 0.75f;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

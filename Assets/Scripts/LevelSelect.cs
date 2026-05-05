@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 
@@ -20,7 +21,9 @@ public class LevelSelect : MonoBehaviour
 
     public void OnStartButtonPressed() {
         //load level for the LevelData found in levelArray[levelIndex]
-        GameManager.Instance.LoadLevel(levelIndex);
+        Debug.Log("loading level");
+        GlobalData.currentLevelIndex = levelIndex;
+        SceneManager.LoadScene("GameLevel");
     }
 
     public void OnNextPressed() {

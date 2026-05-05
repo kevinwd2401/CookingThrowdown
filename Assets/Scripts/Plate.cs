@@ -47,7 +47,7 @@ public class Plate : MonoBehaviour
 
         // TODO: compare sliced
         // compare against recipe
-        LevelData level = GameManager.Instance.levels[GameManager.currentLevelIndex];
+        LevelData level = GameManager.Instance.levels[GlobalData.currentLevelIndex];
         foreach (var req in level.recipe.requirements) {
 
             var key = (req.ingredient, req.cookStatus);
