@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public HashSet<Transform> npcTransforms = new HashSet<Transform>();
 
     public TextMeshProUGUI endGameText;
+    public TextMeshProUGUI levelText;
     public TextMeshProUGUI recipeTitle;
     public TextMeshProUGUI recipeSteps;
 
@@ -123,6 +124,8 @@ public class GameManager : MonoBehaviour
             sb.AppendLine($"{i + 1}. {level.recipe.steps[i]}");
         }
         recipeSteps.text = sb.ToString();
+
+        levelText.text = level.levelName;
 
         Debug.Log("Loaded" + level.levelName);
     }
