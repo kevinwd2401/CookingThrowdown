@@ -270,6 +270,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         } else {
             endGameText.text = "Completed all levels!";
+            breakdownText.text = "Completed all levels!";
             Debug.Log("Completed all levels!");
         }
     }

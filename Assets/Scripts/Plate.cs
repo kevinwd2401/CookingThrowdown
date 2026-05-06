@@ -6,34 +6,33 @@ using UnityEngine;
 public class Plate : MonoBehaviour
 {
     public List<Ingredient> ingredientsOnPlate = new List<Ingredient>();
-    public float currentStackHeight = 0.0f;
 
-    void OnTriggerEnter(Collider other) {
-        if (other.TryGetComponent<Ingredient>(out Ingredient food)) {
-            if (!ingredientsOnPlate.Contains(food)) {
-                ingredientsOnPlate.Add(food);
-                CheckRecipeStatus();
-
-                // make it stay where it is more
-                other.attachedRigidbody.mass = 100.0f;
-                other.attachedRigidbody.drag = 2f;
-                other.attachedRigidbody.angularDrag = 10f;
+    private void OnTriggerEnter(Collider other) {
+        if (other.TryGetComponent<Ingredient>(out Ingredient item)) {
+            if (!ingredientsOnPlate.Contains(item)) {
+                ingredientsOnPlate.Add(item);
+                Debug.Log($"{item.name} entered the plate.");
             }
         }
     }
 
-    void OnTriggerExit(Collider other) {
-        if (other.TryGetComponent<Ingredient>(out Ingredient food)) {
-            ingredientsOnPlate.Remove(food);
-            CheckRecipeStatus();
+    private void OnTriggerExit(Collider other) {
+        if (other.TryGetComponent<Ingredient>(out Ingredient item)) {
+            if (ingredientsOnPlate.Contains(item)) {
+                ingredientsOnPlate.Remove(item);
+                Debug.Log($"{item.name} left the plate.");
+            }
         }
     }
 
-    void CheckRecipeStatus() {
+    public void CheckRecipeStatus() {
+        Debug.Log("checking recipe status!");
+        ingredientsOnPlate.RemoveAll(item => item == null);
+
+        // count what's on the plate
         Dictionary<(Ingredient.IngredientType, Ingredient.CookState), int> counts
         = new Dictionary<(Ingredient.IngredientType, Ingredient.CookState), int>();
 
-        // count what's on the plate
         foreach (Ingredient item in ingredientsOnPlate) {
 
             var key = (item.ingredient, item.cookStatus);
@@ -53,6 +52,7 @@ public class Plate : MonoBehaviour
             var key = (req.ingredient, req.cookStatus);
 
             if (!counts.ContainsKey(key) || counts[key] < req.quantity) {
+                Debug.Log("not enough ingredients");
                 return;
             }
         }
