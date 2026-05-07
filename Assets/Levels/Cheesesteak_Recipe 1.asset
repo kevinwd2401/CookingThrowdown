@@ -12,20 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2715c20de9d1fa741aa2fafbc4a76faf, type: 3}
   m_Name: Cheesesteak_Recipe 1
   m_EditorClassIdentifier: 
-  recipeName: Steak
+  recipeName: Cheesesteak
   steps:
   - Cut 2 slices bread
   - Cook steak
-  - Finely chop steak and cheese (>= 10 slices of each)
+  - Chop steak & cheese (>5 slices each)
   - Assemble and Plate!
   requirements:
   - ingredient: 0
     cookStatus: 1
-    quantity: 10
+    quantity: 5
     isSliced: 1
   - ingredient: 3
     cookStatus: 0
-    quantity: 10
+    quantity: 5
     isSliced: 1
   - ingredient: 1
     cookStatus: 0

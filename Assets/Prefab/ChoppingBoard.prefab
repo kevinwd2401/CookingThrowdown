@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2518523593223703485}
   - component: {fileID: 4240392995237316310}
   - component: {fileID: 1381702280595409113}
+  - component: {fileID: 8064943173432111485}
   m_Layer: 0
   m_Name: ChoppingBoard
   m_TagString: Untagged
@@ -110,10 +111,10 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &2518523593223703485
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -269,3 +270,17 @@ MonoBehaviour:
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
   m_FarAttachMode: 1
+--- !u!114 &8064943173432111485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076445332063172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69e3bff5e0cf2014ebeafe1bb9aba720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityThreshold: 0.05
+  settleTimeRequired: 0.5
