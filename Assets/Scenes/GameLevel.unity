@@ -654,6 +654,7 @@ MonoBehaviour:
   handNode: 5
   directInteractor: {fileID: 0}
   catchAttachPoint: {fileID: 0}
+  extraHandInteractors: []
   onlyCatchThrownIngredients: 1
   allowAButtonToggleOnThisHand: 1
   aimShootMode: 0
@@ -3127,6 +3128,8 @@ MonoBehaviour:
   handNode: 5
   directInteractor: {fileID: 441087513}
   catchAttachPoint: {fileID: 0}
+  extraHandInteractors:
+  - {fileID: 229349975}
   onlyCatchThrownIngredients: 1
   allowAButtonToggleOnThisHand: 1
   aimShootMode: 0
@@ -8586,6 +8589,7 @@ MonoBehaviour:
   handNode: 4
   directInteractor: {fileID: 441087510}
   catchAttachPoint: {fileID: 0}
+  extraHandInteractors: []
   onlyCatchThrownIngredients: 1
   allowAButtonToggleOnThisHand: 0
   aimShootMode: 0
