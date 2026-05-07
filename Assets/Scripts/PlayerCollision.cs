@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -17,6 +18,13 @@ public class PlayerCollision : MonoBehaviour
     [Header("Catch Rules")]
     [SerializeField] private bool onlyCatchThrownIngredients = true;
 
+    [Header("Mode Toggle")]
+    [SerializeField] private bool allowAButtonToggleOnThisHand = true;
+    [SerializeField] private bool aimShootMode = false;
+
+    [Header("Mode UI")]
+    [SerializeField] private TextMeshProUGUI modeText;
+
     [Header("Aim And Shoot Settings")]
     [SerializeField] private float shootSpeed = 8f;
     [SerializeField] private float straightFlightTime = 1.2f;
@@ -34,6 +42,7 @@ public class PlayerCollision : MonoBehaviour
     private InputDevice device;
     private bool gripWasPressedLastFrame;
     private bool triggerWasPressedLastFrame;
+    private bool aWasPressedLastFrame;
 
     private XRGrabInteractable currentlyHeld;
     private XRInteractionManager currentManager;
@@ -42,8 +51,25 @@ public class PlayerCollision : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         TryInitializeDevice();
+
+        if (directInteractor != null)
+        {
+            directInteractor.selectEntered.AddListener(OnDirectSelectEntered);
+            directInteractor.selectExited.AddListener(OnDirectSelectExited);
+        }
+
         SetupAimVisuals();
         HideAimVisuals();
+        UpdateModeUI();
+    }
+
+    void OnDestroy()
+    {
+        if (directInteractor != null)
+        {
+            directInteractor.selectEntered.RemoveListener(OnDirectSelectEntered);
+            directInteractor.selectExited.RemoveListener(OnDirectSelectExited);
+        }
     }
 
     void Update()
@@ -53,11 +79,25 @@ public class PlayerCollision : MonoBehaviour
 
         bool gripPressed = false;
         bool triggerPressed = false;
+        bool aPressed = false;
 
         if (device.isValid)
         {
             device.TryGetFeatureValue(CommonUsages.gripButton, out gripPressed);
             device.TryGetFeatureValue(CommonUsages.triggerButton, out triggerPressed);
+            device.TryGetFeatureValue(CommonUsages.primaryButton, out aPressed);
+        }
+
+        if (allowAButtonToggleOnThisHand && handNode == XRNode.RightHand)
+        {
+            bool aPressedThisFrame = aPressed && !aWasPressedLastFrame;
+
+            if (aPressedThisFrame)
+            {
+                aimShootMode = !aimShootMode;
+                Debug.Log("Aim/Shoot Mode: " + aimShootMode);
+                UpdateModeUI();
+            }
         }
 
         bool anyPressed = gripPressed || triggerPressed;
@@ -66,19 +106,20 @@ public class PlayerCollision : MonoBehaviour
         bool pressedThisFrame = anyPressed && !anyWasPressed;
         bool releasedThisFrame = !anyPressed && anyWasPressed;
 
-        RememberNormallyGrabbedObject();
-
         if (pressedThisFrame)
             TryCatchNearest();
 
-        if (currentlyHeld != null)
+        if (currentlyHeld != null && aimShootMode)
             UpdateAimVisuals();
+        else
+            HideAimVisuals();
 
         if (releasedThisFrame)
-            ShootAndReleaseHeldObject();
+            ReleaseHeldObject();
 
         gripWasPressedLastFrame = gripPressed;
         triggerWasPressedLastFrame = triggerPressed;
+        aWasPressedLastFrame = aPressed;
     }
 
     void OnTriggerEnter(Collider c)
@@ -97,29 +138,62 @@ public class PlayerCollision : MonoBehaviour
         }
     }
 
+    private void OnDirectSelectEntered(SelectEnterEventArgs args)
+    {
+        XRGrabInteractable grab = args.interactableObject as XRGrabInteractable;
+        if (grab == null) return;
+
+        currentlyHeld = grab;
+        currentManager = grab.interactionManager;
+
+        if (currentManager == null)
+            currentManager = FindObjectOfType<XRInteractionManager>();
+    }
+
+    private void OnDirectSelectExited(SelectExitEventArgs args)
+    {
+        XRGrabInteractable grab = args.interactableObject as XRGrabInteractable;
+        if (grab == null) return;
+
+        bool wasHeldByThisScript = grab == currentlyHeld;
+
+        if (aimShootMode && grab.GetComponentInParent<Throwable>() != null)
+        {
+            Vector3 shootDirection = GetAimDirection();
+            StartCoroutine(ShootAfterRelease(grab.gameObject, shootDirection));
+        }
+
+        if (wasHeldByThisScript)
+        {
+            currentlyHeld = null;
+            currentManager = null;
+            HideAimVisuals();
+        }
+    }
+
+    private IEnumerator ShootAfterRelease(GameObject obj, Vector3 shootDirection)
+    {
+        if (obj == null)
+            yield break;
+
+        yield return null;
+        yield return new WaitForFixedUpdate();
+
+        if (obj == null)
+            yield break;
+
+        StraightShotProjectile shot = obj.GetComponent<StraightShotProjectile>();
+        if (shot == null)
+            shot = obj.AddComponent<StraightShotProjectile>();
+
+        shot.Shoot(shootDirection, shootSpeed, straightFlightTime);
+
+        Debug.Log("Aim shoot on release: " + obj.name);
+    }
+
     private void TryInitializeDevice()
     {
         device = InputDevices.GetDeviceAtXRNode(handNode);
-    }
-
-    private void RememberNormallyGrabbedObject()
-    {
-        if (directInteractor == null) return;
-        if (!directInteractor.hasSelection) return;
-
-        foreach (IXRSelectInteractable selected in directInteractor.interactablesSelected)
-        {
-            XRGrabInteractable grab = selected as XRGrabInteractable;
-            if (grab == null) continue;
-
-            currentlyHeld = grab;
-            currentManager = grab.interactionManager;
-
-            if (currentManager == null)
-                currentManager = FindObjectOfType<XRInteractionManager>();
-
-            return;
-        }
     }
 
     private void TryCatchNearest()
@@ -195,73 +269,21 @@ public class PlayerCollision : MonoBehaviour
             (IXRSelectInteractable)closestGrab
         );
 
-        Debug.Log("Sphere catch + aim shoot: " + closestThrowable.name);
+        Debug.Log("Sphere catch: " + closestThrowable.name);
     }
 
-    private void ShootAndReleaseHeldObject()
+    private void ReleaseHeldObject()
     {
-        if (currentlyHeld == null)
+        if (currentlyHeld != null && currentManager != null && directInteractor != null)
         {
-            ClearHeld();
-            HideAimVisuals();
-            return;
+            if (currentlyHeld.isSelected)
+            {
+                currentManager.SelectExit(
+                    (IXRSelectInteractor)directInteractor,
+                    (IXRSelectInteractable)currentlyHeld
+                );
+            }
         }
-
-        XRGrabInteractable grab = currentlyHeld;
-        GameObject obj = grab.gameObject;
-        Vector3 shootDirection = GetAimDirection();
-
-        StartCoroutine(ShootAfterRealRelease(grab, obj, shootDirection));
-
-        ClearHeld();
-        HideAimVisuals();
-    }
-
-    private IEnumerator ShootAfterRealRelease(XRGrabInteractable grab, GameObject obj, Vector3 shootDirection)
-    {
-        if (grab == null || obj == null)
-            yield break;
-
-        XRInteractionManager manager = grab.interactionManager;
-        if (manager == null)
-            manager = FindObjectOfType<XRInteractionManager>();
-
-        IXRSelectInteractor realInteractor = null;
-
-        if (grab.interactorsSelecting != null && grab.interactorsSelecting.Count > 0)
-        {
-            realInteractor = grab.interactorsSelecting[0];
-            Debug.Log("Real holding interactor = " + realInteractor.transform.name);
-        }
-        else if (directInteractor != null)
-        {
-            realInteractor = (IXRSelectInteractor)directInteractor;
-            Debug.Log("Fallback holding interactor = " + directInteractor.name);
-        }
-
-        bool oldThrowOnDetach = grab.throwOnDetach;
-        grab.throwOnDetach = false;
-
-        if (manager != null && realInteractor != null && grab.isSelected)
-        {
-            manager.SelectExit(
-                realInteractor,
-                (IXRSelectInteractable)grab
-            );
-        }
-
-        yield return null;
-        yield return new WaitForFixedUpdate();
-
-        grab.throwOnDetach = oldThrowOnDetach;
-
-        StraightShotProjectile shot = obj.GetComponent<StraightShotProjectile>();
-        if (shot == null)
-            shot = obj.AddComponent<StraightShotProjectile>();
-
-        shot.Shoot(shootDirection, shootSpeed, straightFlightTime);
-
-        Debug.Log("Aim shoot object after real release: " + obj.name);
     }
 
     private Transform GetAimTransform()
@@ -388,10 +410,20 @@ public class PlayerCollision : MonoBehaviour
             aimReticle.gameObject.SetActive(false);
     }
 
-    private void ClearHeld()
+    private void UpdateModeUI()
     {
-        currentlyHeld = null;
-        currentManager = null;
+        if (modeText == null) return;
+
+        if (aimShootMode)
+        {
+            modeText.text = "Mode: Shoot";
+            modeText.color = Color.red;
+        }
+        else
+        {
+            modeText.text = "Mode: Throw";
+            modeText.color = Color.green;
+        }
     }
 
     private void OnDrawGizmosSelected()
