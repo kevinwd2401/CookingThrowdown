@@ -16,7 +16,7 @@ MonoBehaviour:
   steps:
   - Cut 2 slices bread
   - Cook steak
-  - Finely chop steak and cheese
+  - Finely chop steak and cheese (>= 10 slices of each)
   - Assemble and Plate!
   requirements:
   - ingredient: 0
